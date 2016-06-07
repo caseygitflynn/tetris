@@ -1,0 +1,151 @@
+"use strict";
+
+var Tetris = Tetris || {};
+
+Tetris.Tetrominos = Tetris.Tetrominos || {};
+
+Tetris.Tetrominos.Square = {
+  rotations : [
+    [[0, 0, 0, 0],
+     [0, 1, 1, 0],
+     [0, 1, 1, 0],
+     [0, 0, 0, 0]],
+  ],
+  topLeft : {row : 0, col :3 },
+};
+
+Tetris.Tetrominos.J = {
+  rotations : [
+    [[0, 0, 2, 0],
+     [0, 0, 2, 0],
+     [0, 2, 2, 0],
+     [0, 0, 0, 0]],
+    [[0, 0, 0, 0],
+     [0, 2, 0, 0],
+     [0, 2, 2, 2],
+     [0, 0, 0, 0]],
+    [[0, 2, 2, 0],
+     [0, 2, 0, 0],
+     [0, 2, 0, 0],
+     [0, 0, 0, 0]],
+    [[0, 0, 0, 0],
+     [0, 2, 2, 2],
+     [0, 0, 0, 2],
+     [0, 0, 0, 0]],
+  ],
+  topLeft : {row : 0, col :3 },
+};
+
+Tetris.Tetrominos.L = {
+  rotations : [
+    [[0, 3, 0, 0],
+     [0, 3, 0, 0],
+     [0, 3, 3, 0],
+     [0, 0, 0, 0]],
+    [[0, 0, 0, 0],
+     [0, 3, 3, 3],
+     [0, 3, 0, 0],
+     [0, 0, 0, 0]],
+    [[0, 3, 3, 0],
+     [0, 0, 3, 0],
+     [0, 0, 3, 0],
+     [0, 0, 0, 0]],
+    [[0, 3, 0, 0],
+     [0, 3, 3, 3],
+     [0, 0, 0, 0],
+     [0, 0, 0, 0]],
+  ],
+  topLeft : {row : 0, col :3 },
+};
+
+Tetris.Tetrominos.S = {
+  rotations : [
+    [[0, 4, 0, 0],
+     [0, 4, 4, 0],
+     [0, 0, 4, 0],
+     [0, 0, 0, 0]],
+    [[0, 0, 4, 4],
+     [0, 4, 4, 0],
+     [0, 0, 0, 0],
+     [0, 0, 0, 0]],
+  ],
+  topLeft : {row : 0, col :3 },
+};
+
+Tetris.Tetrominos.Z = {
+  rotations : [
+    [[0, 0, 5, 0],
+     [0, 5, 5, 0],
+     [0, 5, 0, 0],
+     [0, 0, 0, 0]],
+    [[0, 5, 5, 0],
+     [0, 0, 5, 5],
+     [0, 0, 0, 0],
+     [0, 0, 0, 0]],
+  ],
+  topLeft : {row : 0, col :3 },
+};
+
+Tetris.Tetrominos.I = {
+  rotations : [
+    [[0, 6, 0, 0],
+     [0, 6, 0, 0],
+     [0, 6, 0, 0],
+     [0, 6, 0, 0]],
+    [[0, 0, 0, 0],
+     [0, 0, 0, 0],
+     [6, 6, 6, 6],
+     [0, 0, 0, 0]],
+  ],
+  topLeft : {row : 0, col :3 },
+};
+
+Tetris.Tetromino = function (config) {
+  this.rotations = config.rotations;
+  this.shape = config.rotations[0];
+  this.potentialShape = this.shape;
+  this.topLeft = config.topLeft;
+  this.potentialTopLeft = this.topLeft;
+  this.currentRotation = 0;
+};
+
+Tetris.Tetromino.prototype.moveDown = function () {
+  this.potentialTopLeft = {
+    row : this.potentialTopLeft.row + 1,
+    col : this.potentialTopLeft.col
+  };
+};
+
+Tetris.Tetromino.prototype.moveLeft = function () {
+  this.potentialTopLeft = {
+    row: this.potentialTopLeft.row,
+    col: this.potentialTopLeft.col - 1
+  };
+};
+
+Tetris.Tetromino.prototype.moveRight = function () {
+  this.potentialTopLeft = {
+    row: this.potentialTopLeft.row,
+    col: this.potentialTopLeft.col + 1
+  };
+};
+
+Tetris.Tetromino.prototype.rotate = function () {
+  if (this.rotations[this.currentRotation +1]) {
+    this.currentRotation++;
+  } else {
+    this.currentRotation = 0;
+  }
+
+  this.potentialShape = this.rotations[this.currentRotation];
+};
+
+Tetris.Tetromino.prototype.commitMove = function () {
+  this.topLeft = this.potentialTopLeft;
+  this.shape = this.potentialShape;
+};
+
+Tetris.Tetromino.prototype.revertMove = function () {
+  this.potentialTopLeft = this.topLeft;
+  this.potentialShape = this.shape;
+};
