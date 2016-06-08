@@ -15,9 +15,8 @@ Tetris.Game = function (canvas) {
 };
 
 Tetris.Game.prototype.init = function() {
-  this._sizeCanvas();
   this.ui = new Tetris.Grid(this.ctx, Tetris.Config.GRID_ROWS, Tetris.Config.GRID_COLS, this.spaceSize);
-  this.canvas.addEventListener('click', this._onClick.bind(this));
+  this._sizeCanvas();
 
   this.currentGrid = this._buildEmptyGrid();
   this.landedGrid = this._buildEmptyGrid();
@@ -43,6 +42,9 @@ Tetris.Game.prototype._initListeners = function () {
   this.keypad.onDown = function () {
     self.currentTetromino.moveDown();
   };
+
+  this.canvas.addEventListener('click', this._onClick.bind(this));
+  window.addEventListener('resize', this._sizeCanvas.bind(this));
 };
 
 Tetris.Game.prototype.update = function (timestamp) {
@@ -188,9 +190,20 @@ Tetris.Game.prototype._onClick = function (e) {
   this.timer.paused = !this.timer.paused;
 };
 
-Tetris.Game.prototype._sizeCanvas = function (width, height) {
+Tetris.Game.prototype._sizeCanvas = function () {
+  var winWidth = window.innerWidth;
+  var winHeight = window.innerHeight;
+  var ratio = this.GRID_COLS / this.GRID_ROWS;
+
+  if (winWidth / winHeight < ratio) {
+    this.spaceSize = winWidth / Tetris.Config.GRID_COLS;
+  } else {
+    this.spaceSize = winHeight / Tetris.Config.GRID_ROWS;
+  }
+
   this.canvas.width = Tetris.Config.GRID_COLS * this.spaceSize;
   this.canvas.height = Tetris.Config.GRID_ROWS * this.spaceSize;
+  this.ui.spaceSize = this.spaceSize;
 };
 
 Tetris.Game.prototype._buildEmptyGrid = function () {
