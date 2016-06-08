@@ -37,6 +37,11 @@ Tetris.Grid.prototype._drawGridSquare = function (row, col, color) {
   ctx.translate(col * this.spaceSize, row * this.spaceSize);
   ctx.fillStyle = this.colors[color];
   ctx.fillRect(0, 0, this.spaceSize, this.spaceSize);
+  if (color == 0) {
+    ctx.strokeStyle="#444444";
+  } else {
+    ctx.strokeStyle="#000000";
+  }
   ctx.strokeRect(0, 0, this.cols * this.spaceSize, this.rows * this.spaceSize);
   ctx.restore();
 };
