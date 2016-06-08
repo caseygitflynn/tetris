@@ -132,27 +132,6 @@ Tetris.Tetromino = function (config) {
   this.currentRotation = 0;
 };
 
-Tetris.Tetromino.prototype.moveDown = function () {
-  this.potentialTopLeft = {
-    row : this.potentialTopLeft.row + 1,
-    col : this.potentialTopLeft.col
-  };
-};
-
-Tetris.Tetromino.prototype.moveLeft = function () {
-  this.potentialTopLeft = {
-    row: this.potentialTopLeft.row,
-    col: this.potentialTopLeft.col - 1
-  };
-};
-
-Tetris.Tetromino.prototype.moveRight = function () {
-  this.potentialTopLeft = {
-    row: this.potentialTopLeft.row,
-    col: this.potentialTopLeft.col + 1
-  };
-};
-
 Tetris.Tetromino.prototype.rotate = function () {
   if (this.rotations[this.currentRotation +1]) {
     this.currentRotation++;
@@ -161,14 +140,4 @@ Tetris.Tetromino.prototype.rotate = function () {
   }
 
   this.potentialShape = this.rotations[this.currentRotation];
-};
-
-Tetris.Tetromino.prototype.commitMove = function () {
-  this.topLeft = this.potentialTopLeft;
-  this.shape = this.potentialShape;
-};
-
-Tetris.Tetromino.prototype.revertMove = function () {
-  this.potentialTopLeft = this.topLeft;
-  this.potentialShape = this.shape;
 };

@@ -10,13 +10,24 @@ Tetris.Grid = function (ctx, rows, cols, spaceSize) {
   this.colors = ["black", "#CC66CC", "#66CCCC", "#DDAA00", "#66CC66", "#CC6666", "#6666CC", "#CCCC66"];
 };
 
-Tetris.Grid.prototype.draw = function (grid) {
+Tetris.Grid.prototype.drawBoard = function (board) {
   this._clear();
 
   for (var row = 0; row < this.rows; row = row + 1) {
     for (var col = 0; col < this.cols; col = col + 1) {
-      var color = grid[row][col];
-      this._drawGridSquare(row, col, color);
+      this._drawGridSquare(row, col, board.grid[row][col]);
+    }
+  }
+};
+
+Tetris.Grid.prototype.drawTetromino = function (tetromino) {
+  var grid = tetromino.shape;
+
+  for (var row = 0; row < tetromino.shape.length; row++) {
+    for (var col = 0; col < tetromino.shape[row].length; col++) {
+      if (tetromino.shape[row][col] !== 0) {
+        this._drawGridSquare(row + tetromino.topLeft.row, col + tetromino.topLeft.col, tetromino.shape[row][col]);
+      }
     }
   }
 };
@@ -42,6 +53,6 @@ Tetris.Grid.prototype._drawGridSquare = function (row, col, color) {
   } else {
     ctx.strokeStyle="#000000";
   }
-  ctx.strokeRect(0, 0, this.cols * this.spaceSize, this.rows * this.spaceSize);
+  ctx.strokeRect(0, 0, this.spaceSize, this.spaceSize);
   ctx.restore();
 };

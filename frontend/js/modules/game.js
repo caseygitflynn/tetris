@@ -27,22 +27,23 @@ Tetris.Game.prototype._initListeners = function () {
 
   this.keypad.onLeft = function () {
     if (!self.timer.paused) {
-      self.currentTetromino.moveLeft();
+      self.moveTetromino(0, -1);
     }
   };
   this.keypad.onRight = function () {
     if (!self.timer.paused) {
-      self.currentTetromino.moveRight();
+      self.moveTetromino(0, 1);
     }
   };
   this.keypad.onUp = function () {
     if (!self.timer.paused) {
+      self.rotateTetromino()
       self.currentTetromino.rotate();
     }
   };
   this.keypad.onDown = function () {
     if (!self.timer.paused) {
-      self.currentTetromino.moveDown();
+      self.moveTetromino(1, 0);
     }
   };
 
@@ -54,27 +55,37 @@ Tetris.Game.prototype.update = function (timestamp) {
   window.requestAnimationFrame(this.update.bind(this));
 
   if (this.timer.shouldUpdate()) {
-    this.currentTetromino.moveDown();
 
-    if (this.board.willLand(this.currentTetromino)) {
-      this.board.landTetrominio(this.currentTetromino);
-      this.currentTetromino = this.tetrominoFactory.getRandom();
-    } else {
-      this.currentTetromino.commitMove();
+    if (!this.moveTetromino(1, 0)) {
+      this.lockTetromino();
     }
   }
 
-  this.board.drawLandedGrid();
+  this.ui.drawBoard(this.board);
+  this.ui.drawTetromino(this.currentTetromino);
 
-  if (!this.board.hasCollisions(this.currentTetromino)) {
-    this.currentTetromino.commitMove();
-  } else {
-    this.currentTetromino.revertMove();
+};
+
+Tetris.Game.prototype.moveTetromino = function (row_delta, col_delta) {
+  if (this.board.willCollide(this.currentTetromino, row_delta, col_delta)) {
+    return false;
   }
 
-  this.board.mergeTetromino(this.currentTetromino);
-  this.ui.draw(this.board.currentGrid);
+  this.currentTetromino.topLeft.row += row_delta;
+  this.currentTetromino.topLeft.col += col_delta;
 
+  return true;
+};
+
+Tetris.Game.prototype.rotateTetromino = function () {
+  console.error('Rotation not implemented.')
+};
+
+Tetris.Game.prototype.lockTetromino = function () {
+  this.board.mergeTetromino(this.currentTetromino);
+  this.currentTetromino = this.tetrominoFactory.getRandom();
+  var clearedRows = this.board.clearRows();
+  console.log(clearedRows);
 };
 
 Tetris.Game.prototype._onClick = function (e) {
