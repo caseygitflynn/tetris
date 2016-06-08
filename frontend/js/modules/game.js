@@ -26,16 +26,24 @@ Tetris.Game.prototype._initListeners = function () {
   var self = this;
 
   this.keypad.onLeft = function () {
-    self.currentTetromino.moveLeft();
+    if (!self.timer.paused) {
+      self.currentTetromino.moveLeft();
+    }
   };
   this.keypad.onRight = function () {
-    self.currentTetromino.moveRight();
+    if (!self.timer.paused) {
+      self.currentTetromino.moveRight();
+    }
   };
   this.keypad.onUp = function () {
-    self.currentTetromino.rotate();
+    if (!self.timer.paused) {
+      self.currentTetromino.rotate();
+    }
   };
   this.keypad.onDown = function () {
-    self.currentTetromino.moveDown();
+    if (!self.timer.paused) {
+      self.currentTetromino.moveDown();
+    }
   };
 
   this.canvas.addEventListener('click', this._onClick.bind(this));
