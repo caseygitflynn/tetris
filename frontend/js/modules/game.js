@@ -7,7 +7,6 @@ Tetris.Game = function (canvas) {
   this.ctx = this.canvas.getContext('2d');
   this.spaceSize = 50;
   this.ui = null;
-  this.currentGrid = [];
   this.landedGrid = [];
   this.timer = new Tetris.Timer(2);
   this.tetrominoFactory = new Tetris.TetrominoFactory();

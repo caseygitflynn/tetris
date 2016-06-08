@@ -7,7 +7,7 @@ Tetris.Grid = function (ctx, rows, cols, spaceSize) {
   this.rows = rows;
   this.cols = cols;
   this.spaceSize = spaceSize;
-  this.colors = ["black", "red", "blue", "yellow", "green", "purple", "orange"];
+  this.colors = ["black", "#CC66CC", "#66CCCC", "#DDAA00", "#66CC66", "#CC6666", "#6666CC", "#CCCC66"];
 };
 
 Tetris.Grid.prototype.draw = function (grid) {

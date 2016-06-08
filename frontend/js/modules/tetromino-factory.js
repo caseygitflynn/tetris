@@ -4,12 +4,13 @@ var Tetris = Tetris || {};
 
 Tetris.TetrominoFactory = function () {
   this.tetrominos = [
-    Tetris.Tetrominos.Square,
+    Tetris.Tetrominos.O,
     Tetris.Tetrominos.J,
     Tetris.Tetrominos.L,
     Tetris.Tetrominos.S,
     Tetris.Tetrominos.Z,
     Tetris.Tetrominos.I,
+    Tetris.Tetrominos.T,
   ];
 
   this.bag = [];
