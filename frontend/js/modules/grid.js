@@ -32,6 +32,18 @@ Tetris.Grid.prototype.drawTetromino = function (tetromino) {
   }
 };
 
+Tetris.Grid.prototype.drawGhostTetromino = function (tetromino) {
+  var grid = tetromino.shape;
+
+  for (var row = 0; row < tetromino.shape.length; row++) {
+    for (var col = 0; col < tetromino.shape[row].length; col++) {
+      if (tetromino.shape[row][col] !== 0) {
+        this._drawGhostSquare(row + tetromino.position.row, col + tetromino.position.col, tetromino.shape[row][col]);
+      }
+    }
+  }
+};
+
 Tetris.Grid.prototype._clear = function () {
   var ctx = this.ctx;
 
@@ -53,6 +65,16 @@ Tetris.Grid.prototype._drawGridSquare = function (row, col, color) {
   } else {
     ctx.strokeStyle="#000000";
   }
+  ctx.strokeRect(0, 0, this.spaceSize, this.spaceSize);
+  ctx.restore();
+};
+
+Tetris.Grid.prototype._drawGhostSquare = function (row, col) {
+  var ctx = this.ctx;
+
+  ctx.save();
+  ctx.translate(col * this.spaceSize, row * this.spaceSize);
+  ctx.strokeStyle="#FFFFFF";
   ctx.strokeRect(0, 0, this.spaceSize, this.spaceSize);
   ctx.restore();
 };
