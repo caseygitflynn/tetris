@@ -37,8 +37,7 @@ Tetris.Game.prototype._initListeners = function () {
   };
   this.keypad.onUp = function () {
     if (!self.timer.paused) {
-      self.rotateTetromino()
-      self.currentTetromino.rotate();
+      self.rotateTetromino();
     }
   };
   this.keypad.onDown = function () {
@@ -71,21 +70,25 @@ Tetris.Game.prototype.moveTetromino = function (row_delta, col_delta) {
     return false;
   }
 
-  this.currentTetromino.topLeft.row += row_delta;
-  this.currentTetromino.topLeft.col += col_delta;
+  this.currentTetromino.position.row += row_delta;
+  this.currentTetromino.position.col += col_delta;
 
   return true;
 };
 
 Tetris.Game.prototype.rotateTetromino = function () {
-  console.error('Rotation not implemented.')
+  var tetromino = this.currentTetromino.copy();
+  tetromino.rotate();
+
+  if (!this.board.willCollide(tetromino, 0, 0)) {
+    this.currentTetromino = tetromino;
+  }
 };
 
 Tetris.Game.prototype.lockTetromino = function () {
   this.board.mergeTetromino(this.currentTetromino);
   this.currentTetromino = this.tetrominoFactory.getRandom();
   var clearedRows = this.board.clearRows();
-  console.log(clearedRows);
 };
 
 Tetris.Game.prototype._onClick = function (e) {

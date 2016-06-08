@@ -26,7 +26,7 @@ Tetris.Grid.prototype.drawTetromino = function (tetromino) {
   for (var row = 0; row < tetromino.shape.length; row++) {
     for (var col = 0; col < tetromino.shape[row].length; col++) {
       if (tetromino.shape[row][col] !== 0) {
-        this._drawGridSquare(row + tetromino.topLeft.row, col + tetromino.topLeft.col, tetromino.shape[row][col]);
+        this._drawGridSquare(row + tetromino.position.row, col + tetromino.position.col, tetromino.shape[row][col]);
       }
     }
   }

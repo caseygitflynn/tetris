@@ -11,7 +11,7 @@ Tetris.Tetrominos.O = {
      [0, 0, 0, 0],
      [0, 0, 0, 0]],
   ],
-  topLeft : {row : 0, col :3 },
+  position : {row : 0, col :3 },
 };
 
 Tetris.Tetrominos.J = {
@@ -33,7 +33,7 @@ Tetris.Tetrominos.J = {
      [2, 2, 0, 0],
      [0, 0, 0, 0]],
   ],
-  topLeft : {row : 0, col :3 },
+  position : {row : 0, col :3 },
 };
 
 Tetris.Tetrominos.L = {
@@ -55,7 +55,7 @@ Tetris.Tetrominos.L = {
      [0, 3, 3, 0],
      [0, 0, 0, 0]],
   ],
-  topLeft : {row : 0, col :3 },
+  position : {row : 0, col :3 },
 };
 
 Tetris.Tetrominos.S = {
@@ -69,7 +69,7 @@ Tetris.Tetrominos.S = {
      [0, 0, 4, 0],
      [0, 0, 0, 0]],
   ],
-  topLeft : {row : 0, col :3 },
+  position : {row : 0, col :3 },
 };
 
 Tetris.Tetrominos.Z = {
@@ -83,7 +83,7 @@ Tetris.Tetrominos.Z = {
      [0, 5, 0, 0],
      [0, 0, 0, 0]],
   ],
-  topLeft : {row : 0, col :3 },
+  position : {row : 0, col :3 },
 };
 
 Tetris.Tetrominos.I = {
@@ -97,7 +97,7 @@ Tetris.Tetrominos.I = {
      [6, 6, 6, 6],
      [0, 0, 0, 0]],
   ],
-  topLeft : {row : 0, col :3 },
+  position : {row : 0, col :3 },
 };
 
 Tetris.Tetrominos.T = {
@@ -120,16 +120,14 @@ Tetris.Tetrominos.T = {
      [0, 0, 0, 0]],
 
   ],
-  topLeft : {row : 0, col :3 },
+  position : {row : 0, col :3 },
 };
 
 Tetris.Tetromino = function (config) {
+  this.currentRotation = config.currentRotation || 0;
   this.rotations = config.rotations;
-  this.shape = config.rotations[0];
-  this.potentialShape = this.shape;
-  this.topLeft = config.topLeft;
-  this.potentialTopLeft = this.topLeft;
-  this.currentRotation = 0;
+  this.shape = config.rotations[this.currentRotation];
+  this.position = config.position;
 };
 
 Tetris.Tetromino.prototype.rotate = function () {
@@ -139,5 +137,17 @@ Tetris.Tetromino.prototype.rotate = function () {
     this.currentRotation = 0;
   }
 
-  this.potentialShape = this.rotations[this.currentRotation];
+  this.shape = this.rotations[this.currentRotation];
+};
+
+Tetris.Tetromino.prototype.copy = function () {
+  return new Tetris.Tetromino({
+    currentRotation : this.currentRotation,
+    rotations : this.rotations,
+    shape : this.shape.slice(0),
+    position : {
+      row : this.position.row,
+      col : this.position.col
+    }
+  });
 };
