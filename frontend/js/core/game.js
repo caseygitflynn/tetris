@@ -4,13 +4,12 @@ var Tetris = Tetris || {};
 
 Tetris.Core = Tetris.Core || {};
 
-Tetris.Core.Game = function (level) {
-  var level = level || 0;
+Tetris.Core.Game = function () {
   this.board = new Tetris.Core.Board();
-  this.timer = new Tetris.Timer(level);
+  this.score = new Tetris.Core.Score();
+  this.timer = new Tetris.Core.Timer(this.score.score);
   this.tetrominoFactory = new Tetris.Core.TetrominoFactory();
   this.currentTetromino = this.tetrominoFactory.getRandom();;
-  this.score = new Tetris.Score(level);
   this.downPressed = false;
 };
 

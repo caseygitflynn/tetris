@@ -25,7 +25,7 @@ Tetris.Core.Tetromino.prototype.rotate = function () {
 };
 
 Tetris.Core.Tetromino.prototype.copy = function () {
-  return new Tetris.Tetromino({
+  return new Tetris.Core.Tetromino({
     currentRotation : this.currentRotation,
     rotations : this.rotations,
     shape : this.shape.slice(0),

@@ -4,8 +4,8 @@ var Tetris = Tetris || {};
 
 Tetris.Core = Tetris.Core || {};
 
-Tetris.Core.Score = function (level) {
-  this.level = level;
+Tetris.Core.Score = function () {
+  this.level = Tetris.Config.START_LEVEL;
   this.score = 0;
   this.totalLines = 0;
   this.lineGoal = this.level * Tetris.Config.LINE_LEVEL_INCREASE || Tetris.Config.LINE_LEVEL_INCREASE;
