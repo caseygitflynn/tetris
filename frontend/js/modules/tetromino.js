@@ -127,7 +127,10 @@ Tetris.Tetromino = function (config) {
   this.currentRotation = config.currentRotation || 0;
   this.rotations = config.rotations;
   this.shape = config.rotations[this.currentRotation];
-  this.position = config.position;
+  this.position = {
+    row : config.position.row,
+    col : config.position.col,
+  };
 };
 
 Tetris.Tetromino.prototype.rotate = function () {
