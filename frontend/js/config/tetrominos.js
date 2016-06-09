@@ -2,9 +2,11 @@
 
 var Tetris = Tetris || {};
 
-Tetris.Tetrominos = Tetris.Tetrominos || {};
+Tetris.Config = Tetris.Config || {};
 
-Tetris.Tetrominos.O = {
+Tetris.Config.TETRONIMOS = {};
+
+Tetris.Config.TETRONIMOS.O = {
   rotations : [
     [[0, 1, 1, 0],
      [0, 1, 1, 0],
@@ -14,7 +16,7 @@ Tetris.Tetrominos.O = {
   position : {row : 0, col :3 },
 };
 
-Tetris.Tetrominos.J = {
+Tetris.Config.TETRONIMOS.J = {
   rotations : [
     [[2, 0, 0, 0],
      [2, 2, 2, 0],
@@ -36,7 +38,7 @@ Tetris.Tetrominos.J = {
   position : {row : 0, col :3 },
 };
 
-Tetris.Tetrominos.L = {
+Tetris.Config.TETRONIMOS.L = {
   rotations : [
     [[0, 0, 0, 0],
      [3, 3, 3, 0],
@@ -58,7 +60,7 @@ Tetris.Tetrominos.L = {
   position : {row : 0, col :3 },
 };
 
-Tetris.Tetrominos.S = {
+Tetris.Config.TETRONIMOS.S = {
   rotations : [
     [[0, 0, 0, 0],
      [0, 4, 4, 0],
@@ -72,7 +74,7 @@ Tetris.Tetrominos.S = {
   position : {row : 0, col :3 },
 };
 
-Tetris.Tetrominos.Z = {
+Tetris.Config.TETRONIMOS.Z = {
   rotations : [
     [[0, 0, 0, 0],
      [5, 5, 0, 0],
@@ -86,7 +88,7 @@ Tetris.Tetrominos.Z = {
   position : {row : 0, col :3 },
 };
 
-Tetris.Tetrominos.I = {
+Tetris.Config.TETRONIMOS.I = {
   rotations : [
     [[0, 6, 0, 0],
      [0, 6, 0, 0],
@@ -100,7 +102,7 @@ Tetris.Tetrominos.I = {
   position : {row : 0, col :3 },
 };
 
-Tetris.Tetrominos.T = {
+Tetris.Config.TETRONIMOS.T = {
   rotations : [
     [[0, 7, 0, 0],
      [7, 7, 7, 0],
@@ -121,36 +123,4 @@ Tetris.Tetrominos.T = {
 
   ],
   position : {row : 0, col :3 },
-};
-
-Tetris.Tetromino = function (config) {
-  this.currentRotation = config.currentRotation || 0;
-  this.rotations = config.rotations;
-  this.shape = config.rotations[this.currentRotation];
-  this.position = {
-    row : config.position.row,
-    col : config.position.col,
-  };
-};
-
-Tetris.Tetromino.prototype.rotate = function () {
-  if (this.rotations[this.currentRotation +1]) {
-    this.currentRotation++;
-  } else {
-    this.currentRotation = 0;
-  }
-
-  this.shape = this.rotations[this.currentRotation];
-};
-
-Tetris.Tetromino.prototype.copy = function () {
-  return new Tetris.Tetromino({
-    currentRotation : this.currentRotation,
-    rotations : this.rotations,
-    shape : this.shape.slice(0),
-    position : {
-      row : this.position.row,
-      col : this.position.col
-    }
-  });
 };

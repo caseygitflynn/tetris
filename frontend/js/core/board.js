@@ -2,13 +2,15 @@
 
 var Tetris = Tetris || {};
 
-Tetris.Board = function () {
+Tetris.Core = Tetris.Core || {};
+
+Tetris.Core.Board = function () {
   this.ROWS = Tetris.Config.GRID_ROWS;
   this.COLS = Tetris.Config.GRID_COLS;
   this.grid = this.grid = this._makeEmptyGrid();
 };
 
-Tetris.Board.prototype.willCollide = function (tetromino, row_delta, col_delta) {
+Tetris.Core.Board.prototype.willCollide = function (tetromino, row_delta, col_delta) {
 
   for (var row = 0; row < tetromino.shape.length; row++) {
     for (var col = 0; col < tetromino.shape[row].length; col++) {
@@ -26,7 +28,7 @@ Tetris.Board.prototype.willCollide = function (tetromino, row_delta, col_delta) 
   return false;
 };
 
-Tetris.Board.prototype.mergeTetromino = function (tetromino) {
+Tetris.Core.Board.prototype.mergeTetromino = function (tetromino) {
   for (var row = 0; row < tetromino.shape.length; row++) {
     for (var col = 0; col < tetromino.shape[row].length; col++) {
       if (tetromino.shape[row][col] != 0) {
@@ -36,7 +38,7 @@ Tetris.Board.prototype.mergeTetromino = function (tetromino) {
   }
 };
 
-Tetris.Board.prototype._makeEmptyGrid = function () {
+Tetris.Core.Board.prototype._makeEmptyGrid = function () {
   var grid = [];
 
   for (var row = 0; row < this.ROWS; row = row + 1) {
@@ -49,7 +51,7 @@ Tetris.Board.prototype._makeEmptyGrid = function () {
   return grid;
 };
 
-Tetris.Board.prototype._isOpen = function (row, col) {
+Tetris.Core.Board.prototype._isOpen = function (row, col) {
   if (col < 0 || col >= this.COLS) {
     return false;
   }
@@ -60,7 +62,7 @@ Tetris.Board.prototype._isOpen = function (row, col) {
   return this.grid[row][col] === 0;
 };
 
-Tetris.Board.prototype.clearRows = function () {
+Tetris.Core.Board.prototype.clearRows = function () {
   var clearedRows = 0;
   for (var row = 0; row < this.grid.length; row++) {
     if (this._isFilled(row)) {
@@ -72,12 +74,12 @@ Tetris.Board.prototype.clearRows = function () {
   return clearedRows;
 };
 
-Tetris.Board.prototype._clearRow = function (row) {
+Tetris.Core.Board.prototype._clearRow = function (row) {
   this.grid.splice(row, 1);
   this._prependEmptyRow();
 };
 
-Tetris.Board.prototype._isFilled = function (row) {
+Tetris.Core.Board.prototype._isFilled = function (row) {
   var filled = 0;
 
   for (var col = 0; col < this.grid[row].length; col++) {
@@ -89,7 +91,7 @@ Tetris.Board.prototype._isFilled = function (row) {
   return (filled == this.grid[row].length);
 };
 
-Tetris.Board.prototype._prependEmptyRow = function () {
+Tetris.Core.Board.prototype._prependEmptyRow = function () {
   var emptyRow = [];
 
   for (var col = 0; col < this.grid[0].length; col++) {

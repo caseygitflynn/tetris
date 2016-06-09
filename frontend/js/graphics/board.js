@@ -2,15 +2,17 @@
 
 var Tetris = Tetris || {};
 
-Tetris.Grid = function (ctx, rows, cols, spaceSize) {
+Tetris.Graphics = Tetris.Graphics || {};
+
+Tetris.Graphics.Board = function (ctx, spaceSize) {
   this.ctx = ctx;
-  this.rows = rows;
-  this.cols = cols;
+  this.rows = Tetris.Config.GRID_ROWS;
+  this.cols = Tetris.Config.GRID_COLS;
   this.spaceSize = spaceSize;
   this.colors = ["black", "#CC66CC", "#66CCCC", "#DDAA00", "#66CC66", "#CC6666", "#6666CC", "#CCCC66"];
 };
 
-Tetris.Grid.prototype.drawBoard = function (board) {
+Tetris.Graphics.Board.prototype.drawBoard = function (board) {
   this._clear();
 
   for (var row = 0; row < this.rows; row = row + 1) {
@@ -20,7 +22,7 @@ Tetris.Grid.prototype.drawBoard = function (board) {
   }
 };
 
-Tetris.Grid.prototype.drawTetromino = function (tetromino) {
+Tetris.Graphics.Board.prototype.drawTetromino = function (tetromino) {
   var grid = tetromino.shape;
 
   for (var row = 0; row < tetromino.shape.length; row++) {
@@ -32,7 +34,7 @@ Tetris.Grid.prototype.drawTetromino = function (tetromino) {
   }
 };
 
-Tetris.Grid.prototype.drawGhostTetromino = function (tetromino) {
+Tetris.Graphics.Board.prototype.drawGhostTetromino = function (tetromino) {
   var grid = tetromino.shape;
 
   for (var row = 0; row < tetromino.shape.length; row++) {
@@ -44,7 +46,7 @@ Tetris.Grid.prototype.drawGhostTetromino = function (tetromino) {
   }
 };
 
-Tetris.Grid.prototype._clear = function () {
+Tetris.Graphics.Board.prototype._clear = function () {
   var ctx = this.ctx;
 
   ctx.save();
@@ -53,7 +55,7 @@ Tetris.Grid.prototype._clear = function () {
   ctx.restore();
 };
 
-Tetris.Grid.prototype._drawGridSquare = function (row, col, color) {
+Tetris.Graphics.Board.prototype._drawGridSquare = function (row, col, color) {
   var ctx = this.ctx;
 
   ctx.save();
@@ -69,7 +71,7 @@ Tetris.Grid.prototype._drawGridSquare = function (row, col, color) {
   ctx.restore();
 };
 
-Tetris.Grid.prototype._drawGhostSquare = function (row, col) {
+Tetris.Graphics.Board.prototype._drawGhostSquare = function (row, col) {
   var ctx = this.ctx;
 
   ctx.save();
