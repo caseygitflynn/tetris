@@ -40,10 +40,13 @@ Tetris.Scene.Game.prototype.draw = function () {
 Tetris.Scene.Game.prototype._initListeners = function () {
   var self = this;
 
-  this.canvas.addEventListener('click', this.togglePause.bind(this));
   window.addEventListener('resize', this._sizeCanvas.bind(this));
 
   this.input.keyDown = function (key) {
+    if (key == Tetris.Config.KEYS.PAUSE) {
+      self.togglePause();
+    }
+    
     if (self.paused) {
       return;
     }

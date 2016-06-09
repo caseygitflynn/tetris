@@ -10,4 +10,5 @@ Tetris.Config.KEYS = {
   LEFT   : 37,
   RIGHT  : 39,
   DROP   : 32,
+  PAUSE  : 13,
 };
