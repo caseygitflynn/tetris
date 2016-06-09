@@ -14,6 +14,7 @@ Tetris.Game = function (canvas) {
   this.currentTetromino = null;
   this.keypad = new Tetris.Keypad();
   this.score = new Tetris.Score(this.level);
+  this.downPressed = false;
 };
 
 Tetris.Game.prototype.init = function() {
@@ -29,16 +30,47 @@ Tetris.Game.prototype._initListeners = function () {
 
   this.canvas.addEventListener('click', this._onClick.bind(this));
   window.addEventListener('resize', this._sizeCanvas.bind(this));
+
+  this.keypad.keyDown = function (key) {
+    if (self.timer.paused) {
+      return;
+    }
+
+    switch (key) {
+      case Tetris.Config.KEYS.LEFT :
+        self.moveTetromino(0, -1);
+        break;
+      case Tetris.Config.KEYS.RIGHT :
+        self.moveTetromino(0, 1);
+        break;
+      case Tetris.Config.KEYS.ROTATE :
+        self.rotateTetromino();
+        break;
+      case Tetris.Config.KEYS.DOWN :
+        self.downPressed = true;
+        break;
+      case Tetris.Config.KEYS.DROP :
+        self.dropTetromino();
+        break;
+    }
+  };
+
+  this.keypad.keyUp = function (key) {
+    if (self.timer.paused) {
+      return;
+    }
+
+    switch (key) {
+      case Tetris.Config.KEYS.DOWN :
+        self.downPressed = false;
+    }
+  };
 };
 
 Tetris.Game.prototype.update = function (timestamp) {
   window.requestAnimationFrame(this.update.bind(this));
 
-  if (this.timer.shouldTakeInput()) {
-    this.handleInput(this.keypad.getState());
-  }
-
-  if (this.timer.shouldDrop()) {
+  if (this.timer.shouldDrop() || this.downPressed) {
     if (!this.moveTetromino(1, 0)) {
       this.lockTetromino();
     }
@@ -49,26 +81,6 @@ Tetris.Game.prototype.update = function (timestamp) {
   this.ui.drawTetromino(this.currentTetromino);
 
   this.previousTimestamp = timestamp;
-};
-
-Tetris.Game.prototype.handleInput = function (inputState) {
-  if (inputState.DOWN) {
-    if (!this.moveTetromino(1, 0)) {
-      this.lockTetromino();
-    }
-  }
-  if (inputState.LEFT) {
-    this.moveTetromino(0, -1);
-  }
-  if (inputState.RIGHT) {
-    this.moveTetromino(0, 1);
-  }
-  if (inputState.ROTATE) {
-    this.rotateTetromino();
-  }
-  if (inputState.DROP) {
-    this.dropTetromino();
-  }
 };
 
 Tetris.Game.prototype.moveTetromino = function (row_delta, col_delta) {

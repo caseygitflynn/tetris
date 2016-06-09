@@ -3,15 +3,8 @@
 var Tetris = Tetris || {}; 
 
 Tetris.Keypad = function () {
-  this.KEYS = {
-    ROTATE : 38,
-    DOWN   : 40,
-    LEFT   : 37,
-    RIGHT  : 39,
-    DROP   : 32,
-  };
-
   this.pressedKeys = [];
+  this.allowedKeys = [];
   
   window.addEventListener('keydown', this._onKeyDown.bind(this));
   window.addEventListener('keyup', this._onKeyUp.bind(this));
@@ -22,7 +15,12 @@ Tetris.Keypad.prototype._onKeyDown = function (e) {
 
   if (this._isAssigned(keyCode)) {
     e.preventDefault();
-    this.pressedKeys[keyCode] = true;
+    if (this.allowedKeys[keyCode] === false) {
+      return;
+    }
+    this.allowedKeys[keyCode] = false;
+
+    this.keyDown(keyCode);
   }
 };
 
@@ -31,28 +29,29 @@ Tetris.Keypad.prototype._onKeyUp = function (e) {
 
   if (this._isAssigned(keyCode)) {
     e.preventDefault();
+    this.allowedKeys[keyCode] = true;
     this.pressedKeys[keyCode] = false;
+
+    this.keyUp(keyCode);
   }
 };
 
-Tetris.Keypad.prototype.getState = function () {
-  return {
-    ROTATE : this.pressedKeys[this.KEYS.ROTATE] || false,
-    DOWN   : this.pressedKeys[this.KEYS.DOWN]   || false,
-    LEFT   : this.pressedKeys[this.KEYS.LEFT]   || false,
-    RIGHT  : this.pressedKeys[this.KEYS.RIGHT]  || false,
-    DROP   : this.pressedKeys[this.KEYS.DROP]   || false,
-  };
-};
-
 Tetris.Keypad.prototype._isAssigned = function (keyCode) {
-  for (var key in this.KEYS) {
-      if (this.KEYS.hasOwnProperty(key)) {
-        if (keyCode == this.KEYS[key]) {
+  for (var key in Tetris.Config.KEYS) {
+      if (Tetris.Config.KEYS.hasOwnProperty(key)) {
+        if (keyCode == Tetris.Config.KEYS[key]) {
           return true;
         }
       }
   }
 
   return false;
+};
+
+Tetris.Keypad.prototype.keyDown = function (key) {
+  console.log("Key down ", key);
+};
+
+Tetris.Keypad.prototype.keyUp = function (key) {
+  console.log("Key up ", key);
 };
