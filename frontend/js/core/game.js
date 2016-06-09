@@ -7,16 +7,31 @@ Tetris.Core = Tetris.Core || {};
 Tetris.Core.Game = function () {
   this.board = new Tetris.Core.Board();
   this.score = new Tetris.Core.Score();
-  this.timer = new Tetris.Core.Timer(this.score.score);
+  this.gravity = new Tetris.Core.Gravity(this.score.level);
+  this.lockDelay = new Tetris.Core.LockDelay();
   this.tetrominoFactory = new Tetris.Core.TetrominoFactory();
   this.currentTetromino = this.tetrominoFactory.getRandom();;
   this.downPressed = false;
 };
 
+Tetris.Core.Game.prototype._initListeners = function () {
+  var self = this;
+
+  this.score.onLevelIncrease = function (level) {
+    self.gravity.setLevel(level);
+  };
+};
+
 Tetris.Core.Game.prototype.update = function (timestamp) {
-  if (this.timer.shouldDrop() || this.downPressed) {
+  this.gravity.frameUpdate();
+  this.lockDelay.frameUpdate();
+
+  if (this.gravity.shouldDrop() || this.downPressed) {
     if (!this.moveTetromino(1, 0)) {
-      this.lockTetromino();
+      var self = this;
+      this.lockDelay.requestLock(function () {
+        self.lockTetromino();
+      });
     } else if (this.downPressed) {
       this.score.softDrop();
     }
@@ -62,8 +77,6 @@ Tetris.Core.Game.prototype.lockTetromino = function () {
   if (clearedRows > 0) {
     this.score.addLines(clearedRows);
   }
-
-  this.timer.setLevel(this.score.level);
 };
 
 Tetris.Core.Game.prototype.getGhostTetromino = function () {

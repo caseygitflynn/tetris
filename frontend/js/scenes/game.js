@@ -17,6 +17,26 @@ Tetris.Scene.Game = function (canvas) {
   this.update(0);
 };
 
+Tetris.Scene.Game.prototype.togglePause = function () {
+  this.paused = !this.paused;
+};
+
+Tetris.Scene.Game.prototype.update = function (timestamp) {
+  window.requestAnimationFrame(this.update.bind(this));
+
+  if (!this.paused) {
+    this.game.update();
+  }
+
+  this.draw();
+};
+
+Tetris.Scene.Game.prototype.draw = function () {
+  this.graphics.drawBoard(this.game.board);
+  this.graphics.drawGhostTetromino(this.game.getGhostTetromino());
+  this.graphics.drawTetromino(this.game.currentTetromino);
+};
+
 Tetris.Scene.Game.prototype._initListeners = function () {
   var self = this;
 
@@ -57,26 +77,6 @@ Tetris.Scene.Game.prototype._initListeners = function () {
         self.game.downPressed = false;
     }
   };
-};
-
-Tetris.Scene.Game.prototype.togglePause = function () {
-  this.paused = !this.paused;
-};
-
-Tetris.Scene.Game.prototype.update = function (timestamp) {
-  window.requestAnimationFrame(this.update.bind(this));
-
-  if (!this.paused) {
-    this.game.update();
-  }
-
-  this.draw();
-};
-
-Tetris.Scene.Game.prototype.draw = function () {
-  this.graphics.drawBoard(this.game.board);
-  this.graphics.drawGhostTetromino(this.game.getGhostTetromino());
-  this.graphics.drawTetromino(this.game.currentTetromino);
 };
 
 Tetris.Scene.Game.prototype._sizeCanvas = function () {

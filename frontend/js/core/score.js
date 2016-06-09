@@ -21,6 +21,7 @@ Tetris.Core.Score.prototype.addLines = function (lines) {
 
     if (this.lineGoal <= 0) {
       this.level++;
+      this.onLevelIncrease(this.level);
       this.lineGoal = this.level * Tetris.Config.LINE_LEVEL_INCREASE;
     }
 
@@ -29,10 +30,13 @@ Tetris.Core.Score.prototype.addLines = function (lines) {
 };
 
 Tetris.Core.Score.prototype.softDrop = function () {
-  console.log('soft drop');
   this.score += Tetris.Config.SOFT_DROP;
 };
 
 Tetris.Core.Score.prototype.hardDrop = function (row_delta) {
   this.score += (row_delta * Tetris.Config.HARD_DROP_MULTIPLIER);
+};
+
+Tetris.Core.Score.prototype.onLevelIncrease = function (level) {
+  console.log("Level increase to ", level);
 };
