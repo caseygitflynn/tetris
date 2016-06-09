@@ -7,7 +7,9 @@ Tetris.Scene = Tetris.Scene || {};
 Tetris.Scene.Game = function (canvas) {
   this.canvas = canvas;
   this.ctx = this.canvas.getContext('2d');
-  this.graphics = new Tetris.Graphics.Board(this.ctx, 50);
+  this.boardUI = new Tetris.Graphics.Board(this.ctx, 50);
+  this.scoreUI = new Tetris.Graphics.Score(this.ctx);
+  this.nextTetrominoUI = new Tetris.Graphics.NextTetromino(this.ctx);
   this.input = new Tetris.Input.Keypad();
   this.game = new Tetris.Core.Game(0);
   this.paused = false;
@@ -33,11 +35,14 @@ Tetris.Scene.Game.prototype.update = function (timestamp) {
 
 Tetris.Scene.Game.prototype.draw = function () {
   if (this.paused) {
-    this.graphics.drawPausedOverlay();
+    this.boardUI.drawPausedOverlay();
+    this.scoreUI.drawScore(this.game.score);
   } else {
-    this.graphics.drawBoard(this.game.board);
-    this.graphics.drawGhostTetromino(this.game.getGhostTetromino());
-    this.graphics.drawTetromino(this.game.currentTetromino);
+    this.boardUI.drawLanded(this.game.board);
+    this.boardUI.drawGhostTetromino(this.game.getGhostTetromino());
+    this.boardUI.drawTetromino(this.game.currentTetromino);
+    this.scoreUI.drawScore(this.game.score);
+    this.nextTetrominoUI.drawNextTetromino(this.game.tetrominoFactory);
   }
 };
 
@@ -89,16 +94,16 @@ Tetris.Scene.Game.prototype._initListeners = function () {
 Tetris.Scene.Game.prototype._sizeCanvas = function () {
   var winWidth = window.innerWidth;
   var winHeight = window.innerHeight;
-  var ratio = Tetris.Config.GRID_COLS / Tetris.Config.GRID_ROWS;
+  var ratio = Tetris.Config.GAME_WIDTH / Tetris.Config.GAME_HEIGHT;
   var spaceSize = 50;
 
   if (winWidth / winHeight < ratio) {
-    spaceSize = winWidth / Tetris.Config.GRID_COLS;
+    spaceSize = winWidth / Tetris.Config.GAME_WIDTH;
   } else {
-    spaceSize = winHeight / Tetris.Config.GRID_ROWS;
+    spaceSize = winHeight / Tetris.Config.GAME_HEIGHT;
   }
 
-  this.canvas.width = Tetris.Config.GRID_COLS * spaceSize;
-  this.canvas.height = Tetris.Config.GRID_ROWS * spaceSize;
-  this.graphics.spaceSize = spaceSize;
+  this.canvas.width = Tetris.Config.GAME_WIDTH * spaceSize;
+  this.canvas.height = Tetris.Config.GAME_HEIGHT * spaceSize;
+  Tetris.Config.GRID_SIZE = spaceSize;
 };
