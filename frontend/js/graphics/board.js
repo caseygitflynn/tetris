@@ -46,6 +46,21 @@ Tetris.Graphics.Board.prototype.drawGhostTetromino = function (tetromino) {
   }
 };
 
+Tetris.Graphics.Board.prototype.drawPausedOverlay = function () {
+  this._clear();
+
+  var ctx = this.ctx;
+  var centerX = (ctx.canvas.width / 2);
+  var centerY = (ctx.canvas.height / 2);
+  
+  ctx.save();
+  ctx.fillStyle = "#FFFFFF";
+  ctx.font = this.spaceSize + "px Monaco";
+  ctx.textAlign = "center"; 
+  ctx.fillText("PAUSED", centerX, centerY);
+  ctx.restore();
+};
+
 Tetris.Graphics.Board.prototype._clear = function () {
   var ctx = this.ctx;
 

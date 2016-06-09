@@ -32,9 +32,13 @@ Tetris.Scene.Game.prototype.update = function (timestamp) {
 };
 
 Tetris.Scene.Game.prototype.draw = function () {
-  this.graphics.drawBoard(this.game.board);
-  this.graphics.drawGhostTetromino(this.game.getGhostTetromino());
-  this.graphics.drawTetromino(this.game.currentTetromino);
+  if (this.paused) {
+    this.graphics.drawPausedOverlay();
+  } else {
+    this.graphics.drawBoard(this.game.board);
+    this.graphics.drawGhostTetromino(this.game.getGhostTetromino());
+    this.graphics.drawTetromino(this.game.currentTetromino);
+  }
 };
 
 Tetris.Scene.Game.prototype._initListeners = function () {
@@ -46,7 +50,7 @@ Tetris.Scene.Game.prototype._initListeners = function () {
     if (key == Tetris.Config.KEYS.PAUSE) {
       self.togglePause();
     }
-    
+
     if (self.paused) {
       return;
     }
