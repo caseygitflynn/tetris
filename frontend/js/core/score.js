@@ -27,3 +27,12 @@ Tetris.Core.Score.prototype.addLines = function (lines) {
     console.log("Score: ",this.score, "Level: ", this.level, "Line Goal: ", this.lineGoal);
   }
 };
+
+Tetris.Core.Score.prototype.softDrop = function () {
+  console.log('soft drop');
+  this.score += Tetris.Config.SOFT_DROP;
+};
+
+Tetris.Core.Score.prototype.hardDrop = function (row_delta) {
+  this.score += (row_delta * Tetris.Config.HARD_DROP_MULTIPLIER);
+};

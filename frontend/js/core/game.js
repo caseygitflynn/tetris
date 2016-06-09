@@ -17,6 +17,8 @@ Tetris.Core.Game.prototype.update = function (timestamp) {
   if (this.timer.shouldDrop() || this.downPressed) {
     if (!this.moveTetromino(1, 0)) {
       this.lockTetromino();
+    } else if (this.downPressed) {
+      this.score.softDrop();
     }
   }
 };
@@ -42,9 +44,13 @@ Tetris.Core.Game.prototype.rotateTetromino = function () {
 };
 
 Tetris.Core.Game.prototype.dropTetromino = function () {
+  var start_row = this.currentTetromino.position.row;
   while(!this.board.willCollide(this.currentTetromino, 1, 0)) {
     this.currentTetromino.position.row += 1;
   }
+
+  var row_delta = this.currentTetromino.position.row - start_row;
+  this.score.hardDrop(row_delta);
 
   this.lockTetromino();
 };
