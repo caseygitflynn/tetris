@@ -29,7 +29,7 @@ Tetris.Core.Game.prototype.update = function (timestamp) {
   if (this.gravity.shouldDrop() || this.downPressed) {
     if (!this.moveTetromino(1, 0)) {
       var self = this;
-      this.lockDelay.requestLock(function () {
+      this.lockDelay.startLock(function () {
         self.lockTetromino();
       });
     } else if (this.downPressed) {
@@ -45,6 +45,12 @@ Tetris.Core.Game.prototype.moveTetromino = function (row_delta, col_delta) {
 
   this.currentTetromino.position.row += row_delta;
   this.currentTetromino.position.col += col_delta;
+
+  this.lockDelay.onMove();
+
+  if (row_delta > 0 || !(this.board.willCollide(this.currentTetromino, col_delta, 1))) {
+    this.lockDelay.onShift();
+  }
 
   return true;
 };
