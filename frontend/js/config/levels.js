@@ -4,21 +4,4 @@ var Tetris = Tetris || {};
 
 Tetris.Config = Tetris.Config || {};
 
-Tetris.Config.LEVELS = [
-  {
-    // Level 0
-    dropRate : 48,
-  },
-  {
-    // Level 1
-    dropRate : 43,
-  },
-  {
-    // Level 2
-    dropRate : 38,
-  },
-  {
-    // Level 3
-    dropRate : 33,
-  }
-];
+Tetris.Config.DROP_RATE = [48, 43, 38, 33, 28, 23, 18, 13, 8, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1];

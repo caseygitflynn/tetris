@@ -3,15 +3,17 @@
 var Tetris = Tetris || {};
 
 Tetris.Game = function (canvas) {
+  this.level = 0;
   this.canvas = canvas;
   this.ctx = this.canvas.getContext('2d');
   this.spaceSize = 50;
   this.ui = null;
   this.board = new Tetris.Board();
-  this.timer = new Tetris.Timer(2);
+  this.timer = new Tetris.Timer(this.level);
   this.tetrominoFactory = new Tetris.TetrominoFactory();
   this.currentTetromino = null;
   this.keypad = new Tetris.Keypad();
+  this.score = new Tetris.Score(this.level);
 };
 
 Tetris.Game.prototype.init = function() {
@@ -32,7 +34,6 @@ Tetris.Game.prototype._initListeners = function () {
 Tetris.Game.prototype.update = function (timestamp) {
   window.requestAnimationFrame(this.update.bind(this));
 
-  
   if (this.timer.shouldTakeInput()) {
     this.handleInput(this.keypad.getState());
   }
@@ -65,6 +66,9 @@ Tetris.Game.prototype.handleInput = function (inputState) {
   if (inputState.ROTATE) {
     this.rotateTetromino();
   }
+  if (inputState.DROP) {
+    this.dropTetromino();
+  }
 };
 
 Tetris.Game.prototype.moveTetromino = function (row_delta, col_delta) {
@@ -87,10 +91,23 @@ Tetris.Game.prototype.rotateTetromino = function () {
   }
 };
 
+Tetris.Game.prototype.dropTetromino = function () {
+  while(!this.board.willCollide(this.currentTetromino, 1, 0)) {
+    this.currentTetromino.position.row += 1;
+  }
+
+  this.lockTetromino();
+};
+
 Tetris.Game.prototype.lockTetromino = function () {
   this.board.mergeTetromino(this.currentTetromino);
   this.currentTetromino = this.tetrominoFactory.getRandom();
   var clearedRows = this.board.clearRows();
+  if (clearedRows > 0) {
+    this.score.addLines(clearedRows);
+  }
+
+  this.timer.setLevel(this.score.level);
 };
 
 Tetris.Game.prototype.getGhostTetromino = function () {

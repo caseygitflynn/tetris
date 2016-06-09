@@ -2,9 +2,9 @@
 
 var Tetris = Tetris || {};
 
-Tetris.Timer = function () {
+Tetris.Timer = function (level) {
   this.paused = false;
-  this.setLevel(3);
+  this.setLevel(level);
   this.dropFrameCounter = 0;
   this.inputFrameCounter = 0;
 };
@@ -15,7 +15,7 @@ Tetris.Timer.prototype.shouldDrop = function () {
   }
 
   this.dropFrameCounter++;
-  if (this.dropFrameCounter >= this.level.dropRate) {
+  if (this.dropFrameCounter >= Tetris.Config.DROP_RATE[this.level]) {
     this.dropFrameCounter = 0;
     return true;
   }
@@ -39,5 +39,5 @@ Tetris.Timer.prototype.shouldTakeInput = function () {
 };
 
 Tetris.Timer.prototype.setLevel = function (level) {
-  this.level = Tetris.Config.LEVELS[level];
+  this.level = level;
 };
