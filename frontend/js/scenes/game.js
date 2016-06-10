@@ -28,7 +28,7 @@ Tetris.Scene.Game.prototype.togglePause = function () {
 Tetris.Scene.Game.prototype.update = function (timestamp) {
   window.requestAnimationFrame(this.update.bind(this));
 
-  if (!this.paused || !this.game.isGameOver) {
+  if (!this.paused) {
     this.game.update();
   }
 
@@ -56,8 +56,13 @@ Tetris.Scene.Game.prototype._initListeners = function () {
   window.addEventListener('resize', this._sizeCanvas.bind(this));
 
   this.input.keyDown = function (key) {
-    if (key == Tetris.Config.KEYS.PAUSE) {
-      self.togglePause();
+    if (key == Tetris.Config.KEYS.ENTER) {
+      if (self.game.isGameOver) {
+        self.game = new Tetris.Core.Game(0);
+        self.paused = false;
+      } else {
+        self.togglePause();
+      }
     }
 
     if (self.paused) {
