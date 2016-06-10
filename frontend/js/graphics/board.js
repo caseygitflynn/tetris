@@ -116,15 +116,20 @@ Tetris.Graphics.Board.prototype._drawGridSquare = function (row, col, color) {
 
   ctx.save();
   ctx.translate(col * Tetris.Config.GRID_SIZE, row * Tetris.Config.GRID_SIZE);
-  ctx.fillStyle = this.colors[color];
-  ctx.fillRect(0, 0, Tetris.Config.GRID_SIZE, Tetris.Config.GRID_SIZE);
   if (color == 0) {
-    ctx.strokeStyle="#444444";
+    if (((row % 2 == 0) && (col % 2 == 0)) || ((row % 2 != 0) && (col % 2 != 0))) {
+      ctx.fillStyle = "#000000";
+    } else {
+      ctx.fillStyle = "#222222";
+    }
+    ctx.fillRect(0, 0, Tetris.Config.GRID_SIZE, Tetris.Config.GRID_SIZE);
   } else {
+    ctx.fillStyle = this.colors[color];
     ctx.strokeStyle="#000000";
-    ctx.lineWidth = 0;
+    ctx.lineWidth = 3;
+    ctx.strokeRect(3, 3, Tetris.Config.GRID_SIZE - 6, Tetris.Config.GRID_SIZE - 6);
+    ctx.fillRect(3, 3, Tetris.Config.GRID_SIZE - 6, Tetris.Config.GRID_SIZE - 6);
   }
-  ctx.strokeRect(0, 0, Tetris.Config.GRID_SIZE, Tetris.Config.GRID_SIZE);
   ctx.restore();
 };
 
@@ -138,8 +143,8 @@ Tetris.Graphics.Board.prototype._drawGhostSquare = function (row, col) {
   ctx.save();
   ctx.translate(col * Tetris.Config.GRID_SIZE, row * Tetris.Config.GRID_SIZE);
   ctx.strokeStyle="#FFFFFF";
-  ctx.lineWidth = 0;
-  ctx.strokeRect(0, 0, Tetris.Config.GRID_SIZE, Tetris.Config.GRID_SIZE);
+  ctx.lineWidth = 3;
+  ctx.strokeRect(3, 3, Tetris.Config.GRID_SIZE - 6, Tetris.Config.GRID_SIZE - 6);
   ctx.restore();
 };
 

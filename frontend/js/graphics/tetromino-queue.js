@@ -72,7 +72,9 @@ Tetris.Graphics.TetrominoQueue.prototype._drawGridSquare = function (row, col, c
   ctx.save();
   ctx.translate(col * Tetris.Config.GRID_SIZE, row * Tetris.Config.GRID_SIZE);
   ctx.fillStyle = this.colors[color];
-  ctx.fillRect(0, 0, Tetris.Config.GRID_SIZE, Tetris.Config.GRID_SIZE);
-  ctx.strokeRect(0, 0, Tetris.Config.GRID_SIZE, Tetris.Config.GRID_SIZE);
+  ctx.strokeStyle="#000000";
+  ctx.lineWidth = 3;
+  ctx.strokeRect(3, 3, Tetris.Config.GRID_SIZE - 6, Tetris.Config.GRID_SIZE - 6);
+  ctx.fillRect(3, 3, Tetris.Config.GRID_SIZE - 6, Tetris.Config.GRID_SIZE - 6);
   ctx.restore();
 };
