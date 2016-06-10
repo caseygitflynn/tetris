@@ -12,6 +12,7 @@ Tetris.Core.Game = function () {
   this.tetrominoQueue = new Tetris.Core.TetrominoQueue();
   this.currentTetromino = this.tetrominoQueue.getNext();
   this.downPressed = false;
+  this.isGameOver = false;
 
   this._initListeners();
 };
@@ -84,6 +85,10 @@ Tetris.Core.Game.prototype.lockTetromino = function () {
   var clearedRows = this.board.clearRows();
   if (clearedRows > 0) {
     this.score.addLines(clearedRows);
+  }
+
+  if (this.board.isObstructed()) {
+    this.isGameOver = true;
   }
 };
 

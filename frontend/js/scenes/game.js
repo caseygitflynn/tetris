@@ -37,6 +37,8 @@ Tetris.Scene.Game.prototype.draw = function () {
   if (this.paused) {
     this.boardUI.drawPausedOverlay();
     this.scoreUI.drawScore(this.game.score);
+  } else if (this.game.isGameOver) {
+    this.boardUI.drawGameOverOverlay();
   } else {
     this.boardUI.drawLanded(this.game.board);
     this.boardUI.drawGhostTetromino(this.game.getGhostTetromino());

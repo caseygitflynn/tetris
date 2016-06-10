@@ -28,6 +28,18 @@ Tetris.Core.Board.prototype.willCollide = function (tetromino, row_delta, col_de
   return false;
 };
 
+Tetris.Core.Board.prototype.isObstructed = function () {
+  for (var row = 0; row < 2; row = row + 1) {
+    for (var col = 0; col < this.grid[row].length; col++) {
+      if (this.grid[row][col] !== 0) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+};
+
 Tetris.Core.Board.prototype.mergeTetromino = function (tetromino) {
   for (var row = 0; row < tetromino.shape.length; row++) {
     for (var col = 0; col < tetromino.shape[row].length; col++) {

@@ -76,6 +76,26 @@ Tetris.Graphics.Board.prototype.drawPausedOverlay = function () {
   
 };
 
+Tetris.Graphics.Board.prototype.drawGameOverOverlay = function () {
+
+  var self = this;
+  this._moveToOffset(function () {
+    self._clear();
+    var ctx = self.ctx;
+    var centerX = ((self.cols * Tetris.Config.GRID_SIZE) / 2);
+    var centerY = (((self.rows + 2) * Tetris.Config.GRID_SIZE) / 2);
+    
+    ctx.save();
+    ctx.fillStyle = "#FFFFFF";
+    ctx.font = "50px Monaco";
+    ctx.textAlign = "center"; 
+    ctx.fillText("GAME OVER", centerX, centerY);
+    ctx.restore();
+  });
+
+  
+};
+
 Tetris.Graphics.Board.prototype._clear = function () {
   var ctx = this.ctx;
 
@@ -108,6 +128,10 @@ Tetris.Graphics.Board.prototype._drawGridSquare = function (row, col, color) {
 
 Tetris.Graphics.Board.prototype._drawGhostSquare = function (row, col) {
   var ctx = this.ctx;
+
+  if (row < 2) {
+    return;
+  }
 
   ctx.save();
   ctx.translate(col * Tetris.Config.GRID_SIZE, row * Tetris.Config.GRID_SIZE);
