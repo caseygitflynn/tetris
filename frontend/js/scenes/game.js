@@ -13,16 +13,20 @@ Tetris.Scene.Game = function (canvas) {
   this.input = new Tetris.Input.Keypad();
   this.game = new Tetris.Core.Game(0);
   this.paused = false;
+  this.audioPlayer = new Tetris.Audio.Player();
+  this.game.audioPlayer = this.audioPlayer;
 
   this._sizeCanvas();
   this._initListeners();
-  this.update(0);
+  this._loadAudio();
 };
 
 Tetris.Scene.Game.prototype.togglePause = function () {
   if (!this.game.isGameOver) {
     this.paused = !this.paused;
   }
+
+  this.audioPlayer.toggleBackgroundMusic();
 };
 
 Tetris.Scene.Game.prototype.update = function (timestamp) {
@@ -50,6 +54,24 @@ Tetris.Scene.Game.prototype.draw = function () {
   }
 };
 
+Tetris.Scene.Game.prototype._loadAudio = function () {
+  var audioLoader = new Tetris.Audio.Loader([
+    { src : '/audio/music.mp3', name : 'tetris'},
+    { src : '/audio/move.mp3', name : 'move'},
+    { src : '/audio/rotate.mp3', name : 'rotate'},
+    { src : '/audio/lock.mp3', name : 'lock'},
+    { src : '/audio/clear-line.mp3', name : 'clear-line'},
+    { src : '/audio/level-up.mp3', name : 'level-up'},
+  ]);
+
+  var self = this;
+  audioLoader.onLoad = function(audioElements) {
+    self.audioPlayer.addAudioElements(audioElements);
+    self.audioPlayer.playBackgroundMusic('tetris');
+    self.update(0);
+  };
+};
+
 Tetris.Scene.Game.prototype._initListeners = function () {
   var self = this;
 
@@ -71,7 +93,9 @@ Tetris.Scene.Game.prototype._initListeners = function () {
 
     switch (key) {
       case Tetris.Config.KEYS.LEFT :
-        self.game.moveTetromino(0, -1);
+        if (self.game.moveTetromino(0, -1)) {
+          self.audioPlayer.play('move');
+        }
         break;
       case Tetris.Config.KEYS.RIGHT :
         self.game.moveTetromino(0, 1);
