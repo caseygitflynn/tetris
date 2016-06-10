@@ -81,6 +81,7 @@ Tetris.Scene.Game.prototype._initListeners = function () {
     if (key == Tetris.Config.KEYS.ENTER) {
       if (self.game.isGameOver) {
         self.game = new Tetris.Core.Game(0);
+        self.game.audioPlayer = self.audioPlayer;
         self.paused = false;
       } else {
         self.togglePause();
