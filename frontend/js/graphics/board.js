@@ -6,7 +6,7 @@ Tetris.Graphics = Tetris.Graphics || {};
 
 Tetris.Graphics.Board = function (ctx, spaceSize) {
   this.ctx = ctx;
-  this.ROW_OFFSET = 1;
+  this.ROW_OFFSET = -1;
   this.COL_OFFSET = 1;
   this.rows = Tetris.Config.GRID_ROWS;
   this.cols = Tetris.Config.GRID_COLS;
@@ -63,7 +63,7 @@ Tetris.Graphics.Board.prototype.drawPausedOverlay = function () {
     self._clear();
     var ctx = self.ctx;
     var centerX = ((self.cols * Tetris.Config.GRID_SIZE) / 2);
-    var centerY = ((self.rows * Tetris.Config.GRID_SIZE) / 2);
+    var centerY = (((self.rows + 2) * Tetris.Config.GRID_SIZE) / 2);
     
     ctx.save();
     ctx.fillStyle = "#FFFFFF";
@@ -81,12 +81,16 @@ Tetris.Graphics.Board.prototype._clear = function () {
 
   ctx.save();
   ctx.fillStyle = "black";
-  ctx.fillRect(0, 0, this.cols * Tetris.Config.GRID_SIZE, this.rows * Tetris.Config.GRID_SIZE);
+  ctx.fillRect(0, Tetris.Config.GRID_SIZE * 2, this.cols * Tetris.Config.GRID_SIZE, (this.rows - 2) * Tetris.Config.GRID_SIZE);
   ctx.restore();
 };
 
 Tetris.Graphics.Board.prototype._drawGridSquare = function (row, col, color) {
   var ctx = this.ctx;
+
+  if (row < 2) {
+    return;
+  }
 
   ctx.save();
   ctx.translate(col * Tetris.Config.GRID_SIZE, row * Tetris.Config.GRID_SIZE);
