@@ -14,6 +14,7 @@ Tetris.Config.TETRONIMOS.O = {
      [0, 0, 0, 0]],
   ],
   position : {row : 0, col :3 },
+  queueOffset : {row : 1, col : 0}
 };
 
 Tetris.Config.TETRONIMOS.J = {
@@ -36,6 +37,7 @@ Tetris.Config.TETRONIMOS.J = {
      [0, 0, 0, 0]],
   ],
   position : {row : 0, col :3 },
+  queueOffset : {row : 1, col : 0.5}
 };
 
 Tetris.Config.TETRONIMOS.L = {
@@ -58,6 +60,7 @@ Tetris.Config.TETRONIMOS.L = {
      [0, 0, 0, 0]],
   ],
   position : {row : 0, col :3 },
+  queueOffset : {row : 0, col : 0.5}
 };
 
 Tetris.Config.TETRONIMOS.S = {
@@ -72,6 +75,7 @@ Tetris.Config.TETRONIMOS.S = {
      [0, 0, 0, 0]],
   ],
   position : {row : 0, col :3 },
+  queueOffset : {row : 0, col : 0.5}
 };
 
 Tetris.Config.TETRONIMOS.Z = {
@@ -86,6 +90,7 @@ Tetris.Config.TETRONIMOS.Z = {
      [0, 0, 0, 0]],
   ],
   position : {row : 0, col :3 },
+  queueOffset : {row : 0, col : 0.5}
 };
 
 Tetris.Config.TETRONIMOS.I = {
@@ -100,6 +105,7 @@ Tetris.Config.TETRONIMOS.I = {
      [0, 0, 0, 0]],
   ],
   position : {row : 0, col :3 },
+  queueOffset : {row : 0, col : 0.5}
 };
 
 Tetris.Config.TETRONIMOS.T = {
@@ -123,4 +129,5 @@ Tetris.Config.TETRONIMOS.T = {
 
   ],
   position : {row : 0, col :3 },
+  queueOffset : {row : 1, col : 0.5}
 };

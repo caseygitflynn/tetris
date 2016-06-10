@@ -12,6 +12,7 @@ Tetris.Core.Tetromino = function (config) {
     row : config.position.row,
     col : config.position.col,
   };
+  this.queueOffset = config.queueOffset;
 };
 
 Tetris.Core.Tetromino.prototype.rotate = function () {
@@ -32,6 +33,7 @@ Tetris.Core.Tetromino.prototype.copy = function () {
     position : {
       row : this.position.row,
       col : this.position.col
-    }
+    },
+    queueOffset : this.queueOffset
   });
 };

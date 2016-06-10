@@ -96,6 +96,7 @@ Tetris.Graphics.Board.prototype._drawGridSquare = function (row, col, color) {
     ctx.strokeStyle="#444444";
   } else {
     ctx.strokeStyle="#000000";
+    ctx.lineWidth = 0;
   }
   ctx.strokeRect(0, 0, Tetris.Config.GRID_SIZE, Tetris.Config.GRID_SIZE);
   ctx.restore();
@@ -107,6 +108,7 @@ Tetris.Graphics.Board.prototype._drawGhostSquare = function (row, col) {
   ctx.save();
   ctx.translate(col * Tetris.Config.GRID_SIZE, row * Tetris.Config.GRID_SIZE);
   ctx.strokeStyle="#FFFFFF";
+  ctx.lineWidth = 0;
   ctx.strokeRect(0, 0, Tetris.Config.GRID_SIZE, Tetris.Config.GRID_SIZE);
   ctx.restore();
 };

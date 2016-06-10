@@ -23,8 +23,17 @@ Tetris.Graphics.Score.prototype.drawScore = function (score) {
   ctx.textAlign = "left";
   ctx.fillStyle = "#FFFFFF";
   ctx.fillText("SCORE", 25, 50);
-  ctx.fillText(score.score.toString(), 25, 100);
+  ctx.fillText(this._zeroFill(score.score, 8), 25, 100);
   ctx.fillText("LEVEL", 25, 150);
-  ctx.fillText(score.level.toString(), 25, 200);
+  ctx.fillText(this._zeroFill(score.level, 2), 25, 200);
   ctx.restore();
+};
+
+Tetris.Graphics.Score.prototype._zeroFill = function (number, width) {
+  width -= number.toString().length;
+    if ( width > 0 )
+    {
+      return new Array( width + (/\./.test( number ) ? 2 : 1) ).join( '0' ) + number;
+    }
+    return number + "";
 };

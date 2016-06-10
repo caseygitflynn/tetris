@@ -4,7 +4,7 @@ var Tetris = Tetris || {};
 
 Tetris.Core = Tetris.Core || {};
 
-Tetris.Core.TetrominoFactory = function () {
+Tetris.Core.TetrominoRandomizer = function () {
   this.tetrominos = [
     Tetris.Config.TETRONIMOS.O,
     Tetris.Config.TETRONIMOS.J,
@@ -18,7 +18,7 @@ Tetris.Core.TetrominoFactory = function () {
   this.bag = [];
 };
 
-Tetris.Core.TetrominoFactory.prototype.getRandom = function () {
+Tetris.Core.TetrominoRandomizer.prototype.getRandom = function () {
   if (this.isEmpty()) {
     this.fillBag();
   }
@@ -27,16 +27,16 @@ Tetris.Core.TetrominoFactory.prototype.getRandom = function () {
   return tetromino;
 };
 
-Tetris.Core.TetrominoFactory.prototype.isEmpty = function () {
+Tetris.Core.TetrominoRandomizer.prototype.isEmpty = function () {
   return this.bag.length === 0;
 };
 
-Tetris.Core.TetrominoFactory.prototype.fillBag = function () {
+Tetris.Core.TetrominoRandomizer.prototype.fillBag = function () {
   this.bag = this.tetrominos.slice(0);
   this.shuffle(this.bag);
 };
 
-Tetris.Core.TetrominoFactory.prototype.shuffle = function (array) {
+Tetris.Core.TetrominoRandomizer.prototype.shuffle = function (array) {
   var j, x, i;
   for (i = array.length; i; i -= 1) {
       j = Math.floor(Math.random() * i);

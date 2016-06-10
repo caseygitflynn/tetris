@@ -9,7 +9,7 @@ Tetris.Scene.Game = function (canvas) {
   this.ctx = this.canvas.getContext('2d');
   this.boardUI = new Tetris.Graphics.Board(this.ctx, 50);
   this.scoreUI = new Tetris.Graphics.Score(this.ctx);
-  this.nextTetrominoUI = new Tetris.Graphics.NextTetromino(this.ctx);
+  this.tetrominoQueueUI = new Tetris.Graphics.TetrominoQueue(this.ctx);
   this.input = new Tetris.Input.Keypad();
   this.game = new Tetris.Core.Game(0);
   this.paused = false;
@@ -42,7 +42,7 @@ Tetris.Scene.Game.prototype.draw = function () {
     this.boardUI.drawGhostTetromino(this.game.getGhostTetromino());
     this.boardUI.drawTetromino(this.game.currentTetromino);
     this.scoreUI.drawScore(this.game.score);
-    this.nextTetrominoUI.drawNextTetromino(this.game.tetrominoFactory);
+    this.tetrominoQueueUI.draw(this.game.tetrominoQueue);
   }
 };
 

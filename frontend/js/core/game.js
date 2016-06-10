@@ -9,8 +9,8 @@ Tetris.Core.Game = function () {
   this.score = new Tetris.Core.Score();
   this.gravity = new Tetris.Core.Gravity(this.score.level);
   this.lockDelay = new Tetris.Core.LockDelay();
-  this.tetrominoFactory = new Tetris.Core.TetrominoFactory();
-  this.currentTetromino = this.tetrominoFactory.getRandom();;
+  this.tetrominoQueue = new Tetris.Core.TetrominoQueue();
+  this.currentTetromino = this.tetrominoQueue.getNext();
   this.downPressed = false;
 
   this._initListeners();
@@ -80,7 +80,7 @@ Tetris.Core.Game.prototype.dropTetromino = function () {
 
 Tetris.Core.Game.prototype.lockTetromino = function () {
   this.board.mergeTetromino(this.currentTetromino);
-  this.currentTetromino = this.tetrominoFactory.getRandom();
+  this.currentTetromino = this.tetrominoQueue.getNext();
   var clearedRows = this.board.clearRows();
   if (clearedRows > 0) {
     this.score.addLines(clearedRows);
