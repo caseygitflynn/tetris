@@ -90,6 +90,8 @@ Tetris.Graphics.Board.prototype.drawGameOverOverlay = function () {
     ctx.font = "50px Monaco";
     ctx.textAlign = "center"; 
     ctx.fillText("GAME OVER", centerX, centerY);
+    ctx.font = "25px Monaco";
+    ctx.fillText("Press Enter...", centerX, centerY + 50);
     ctx.restore();
   });
 
