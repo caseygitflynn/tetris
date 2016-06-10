@@ -92,18 +92,18 @@ Tetris.Scene.Game.prototype._initListeners = function () {
 };
 
 Tetris.Scene.Game.prototype._sizeCanvas = function () {
+  this.canvas.width = Tetris.Config.GAME_WIDTH;
+  this.canvas.height = Tetris.Config.GAME_HEIGHT;
+
   var winWidth = window.innerWidth;
   var winHeight = window.innerHeight;
   var ratio = Tetris.Config.GAME_WIDTH / Tetris.Config.GAME_HEIGHT;
-  var spaceSize = 50;
 
   if (winWidth / winHeight < ratio) {
-    spaceSize = winWidth / Tetris.Config.GAME_WIDTH;
+    this.canvas.style.width = winWidth + "px";
+    this.canvas.style.height = "auto";
   } else {
-    spaceSize = winHeight / Tetris.Config.GAME_HEIGHT;
+    this.canvas.style.width = "auto";
+    this.canvas.style.height = winHeight + "px";
   }
-
-  this.canvas.width = Tetris.Config.GAME_WIDTH * spaceSize;
-  this.canvas.height = Tetris.Config.GAME_HEIGHT * spaceSize;
-  Tetris.Config.GRID_SIZE = spaceSize;
 };

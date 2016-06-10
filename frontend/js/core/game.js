@@ -12,6 +12,8 @@ Tetris.Core.Game = function () {
   this.tetrominoFactory = new Tetris.Core.TetrominoFactory();
   this.currentTetromino = this.tetrominoFactory.getRandom();;
   this.downPressed = false;
+
+  this._initListeners();
 };
 
 Tetris.Core.Game.prototype._initListeners = function () {

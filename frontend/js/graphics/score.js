@@ -19,12 +19,12 @@ Tetris.Graphics.Score.prototype.drawScore = function (score) {
   ctx.translate(this.COL_OFFSET * Tetris.Config.GRID_SIZE, this.ROW_OFFSET * Tetris.Config.GRID_SIZE);
   ctx.fillStyle = "black";
   ctx.fillRect(0, 0, this.cols * Tetris.Config.GRID_SIZE, this.rows * Tetris.Config.GRID_SIZE);
-  ctx.font = Tetris.Config.GRID_SIZE * 0.8 + "px Monaco";
+  ctx.font = "40px Monaco";
   ctx.textAlign = "left";
   ctx.fillStyle = "#FFFFFF";
-  ctx.fillText("SCORE", Tetris.Config.GRID_SIZE / 2, Tetris.Config.GRID_SIZE);
-  ctx.fillText(score.score.toString(), Tetris.Config.GRID_SIZE / 2, Tetris.Config.GRID_SIZE * 2);
-  ctx.fillText("LEVEL", Tetris.Config.GRID_SIZE / 2, Tetris.Config.GRID_SIZE * 3);
-  ctx.fillText(score.level.toString(), Tetris.Config.GRID_SIZE / 2, Tetris.Config.GRID_SIZE * 4);
+  ctx.fillText("SCORE", 25, 50);
+  ctx.fillText(score.score.toString(), 25, 100);
+  ctx.fillText("LEVEL", 25, 150);
+  ctx.fillText(score.level.toString(), 25, 200);
   ctx.restore();
 };
