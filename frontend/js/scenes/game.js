@@ -20,13 +20,15 @@ Tetris.Scene.Game = function (canvas) {
 };
 
 Tetris.Scene.Game.prototype.togglePause = function () {
-  this.paused = !this.paused;
+  if (!this.game.isGameOver) {
+    this.paused = !this.paused;
+  }
 };
 
 Tetris.Scene.Game.prototype.update = function (timestamp) {
   window.requestAnimationFrame(this.update.bind(this));
 
-  if (!this.paused) {
+  if (!this.paused || !this.game.isGameOver) {
     this.game.update();
   }
 
