@@ -24,8 +24,6 @@ Tetris.Core.Score.prototype.addLines = function (lines) {
       this.onLevelIncrease(this.level);
       this.lineGoal = this.level * Tetris.Config.LINE_LEVEL_INCREASE;
     }
-
-    console.log("Score: ",this.score, "Level: ", this.level, "Line Goal: ", this.lineGoal);
   }
 };
 
