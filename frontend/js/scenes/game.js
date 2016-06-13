@@ -26,14 +26,22 @@ Tetris.Scene.Game.prototype.togglePause = function () {
     this.paused = !this.paused;
   }
 
-  this.audioPlayer.toggleBackgroundMusic();
+  if (this.paused) {
+    this.audioPlayer.pauseBackgroundMusic();
+  } else {
+    this.audioPlayer.playBackgroundMusic();
+  }
 };
 
 Tetris.Scene.Game.prototype.update = function (timestamp) {
   window.requestAnimationFrame(this.update.bind(this));
 
-  if (!this.paused) {
+  if (!this.paused && !this.game.isGameOver) {
     this.game.update();
+  }
+
+  if (this.game.isGameOver) {
+    this.audioPlayer.stopBackgroundMusic();
   }
 
   this.draw();
@@ -57,6 +65,7 @@ Tetris.Scene.Game.prototype.draw = function () {
 Tetris.Scene.Game.prototype._loadAudio = function () {
   var audioLoader = new Tetris.Audio.Loader([
     { src : '/audio/music.mp3', name : 'tetris'},
+    { src : '/audio/game-over.mp3', name : 'game-over'},
     { src : '/audio/move.mp3', name : 'move'},
     { src : '/audio/rotate.mp3', name : 'rotate'},
     { src : '/audio/lock.mp3', name : 'lock'},
@@ -94,12 +103,10 @@ Tetris.Scene.Game.prototype._initListeners = function () {
 
     switch (key) {
       case Tetris.Config.KEYS.LEFT :
-        if (self.game.moveTetromino(0, -1)) {
-          self.audioPlayer.play('move');
-        }
+        self.game.moveLeft();
         break;
       case Tetris.Config.KEYS.RIGHT :
-        self.game.moveTetromino(0, 1);
+        self.game.moveRight();
         break;
       case Tetris.Config.KEYS.ROTATE :
         self.game.rotateTetromino();

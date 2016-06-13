@@ -43,6 +43,18 @@ Tetris.Core.Game.prototype.update = function (timestamp) {
   }
 };
 
+Tetris.Core.Game.prototype.moveLeft = function () {
+  if (this.moveTetromino(0, -1)) {
+    this.audioPlayer.play('move');
+  }
+};
+
+Tetris.Core.Game.prototype.moveRight = function () {
+  if (this.moveTetromino(0, 1)) {
+    this.audioPlayer.play('move');
+  }
+};
+
 Tetris.Core.Game.prototype.moveTetromino = function (row_delta, col_delta) {
   if (this.board.willCollide(this.currentTetromino, row_delta, col_delta)) {
     return false;
@@ -64,9 +76,30 @@ Tetris.Core.Game.prototype.rotateTetromino = function () {
   var rotatedTetromino = this.currentTetromino.copy();
   rotatedTetromino.rotate();
 
+  if (this.lockDelay.isPreloacking && !(this.board.willCollide(rotatedTetromino, 0, 1))) {
+    this.lockDelay.onShift();
+  }
+
+  if (this.board.willCollide(rotatedTetromino, 0, 0)) {
+    for (var i = 1; i < 3; i = i + 1) {
+      if (!this.board.willCollide(rotatedTetromino, 0, i)) {
+        rotatedTetromino.position.col += i;
+        break;
+      } else if (!this.board.willCollide(rotatedTetromino, 0, -i)) {
+        rotatedTetromino.position.col -= i;
+        break;
+      } else if (!this.board.willCollide(rotatedTetromino, -i, 0)) {
+        rotatedTetromino.position.row -= i;
+        this.lockDelay.onShift();
+        break;
+      }
+    }
+  }
+
   if (!this.board.willCollide(rotatedTetromino, 0, 0)) {
     this.currentTetromino = rotatedTetromino;
     this.audioPlayer.play('rotate');
+    this.lockDelay.onRotate();
   }
 };
 
@@ -95,6 +128,7 @@ Tetris.Core.Game.prototype.lockTetromino = function () {
 
   if (this.board.isObstructed()) {
     this.isGameOver = true;
+    this.audioPlayer.play('game-over');
   }
 };
 

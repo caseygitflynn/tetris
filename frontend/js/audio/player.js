@@ -28,6 +28,11 @@ Tetris.Audio.Player.prototype.play = function (name) {
 };
 
 Tetris.Audio.Player.prototype.playBackgroundMusic = function (name) {
+  if (this.backgroundMusic) {
+    if (this.backgroundMusic.paused) {
+      this.backgroundMusic.play();
+    }
+  }
   var audioElement = this._find(name);
   if (audioElement) {
     var audio = new Audio();
@@ -40,10 +45,20 @@ Tetris.Audio.Player.prototype.playBackgroundMusic = function (name) {
   }
 };
 
-Tetris.Audio.Player.prototype.toggleBackgroundMusic = function () {
+Tetris.Audio.Player.prototype.pauseBackgroundMusic = function () {
   if (this.backgroundMusic) {
     if (this.backgroundMusic.paused) {
-      this.backgroundMusic.play();
+      return;
+    } else {
+      this.backgroundMusic.pause();
+    }
+  }
+};
+
+Tetris.Audio.Player.prototype.stopBackgroundMusic = function () {
+  if (this.backgroundMusic) {
+    if (this.backgroundMusic.paused) {
+      return;
     } else {
       this.backgroundMusic.pause();
     }
@@ -51,7 +66,6 @@ Tetris.Audio.Player.prototype.toggleBackgroundMusic = function () {
 };
 
 Tetris.Audio.Player.prototype._find = function (name) {
-  console.log(this.audioElements);
   for (var i = 0; i < this.audioElements.length; i = i + 1) {
     var audioElement = this.audioElements[i];
     if (audioElement.name === name) {
