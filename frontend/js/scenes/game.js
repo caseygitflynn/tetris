@@ -71,7 +71,9 @@ Tetris.Scene.Game.prototype._loadAudio = function () {
     { src : '/audio/rotate.mp3', name : 'rotate'},
     { src : '/audio/lock.mp3', name : 'lock'},
     { src : '/audio/clear-line.mp3', name : 'clear-line'},
+    { src : '/audio/clear-tetris.mp3', name : 'clear-tetris'},
     { src : '/audio/level-up.mp3', name : 'level-up'},
+    { src : '/audio/hold.mp3', name : 'hold'},
   ]);
 
   var self = this;

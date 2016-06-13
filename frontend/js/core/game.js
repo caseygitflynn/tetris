@@ -123,6 +123,7 @@ Tetris.Core.Game.prototype.holdTetronimo = function () {
 
   this.currentTetromino = this.tetrominoQueue.hold(this.currentTetromino);
   this.holdLocked = true;
+  this.audioPlayer.play('hold');
 };
 
 Tetris.Core.Game.prototype.lockTetromino = function () {
@@ -134,7 +135,11 @@ Tetris.Core.Game.prototype.lockTetromino = function () {
   var clearedRows = this.board.clearRows();
   if (clearedRows > 0) {
     this.score.addLines(clearedRows);
-    this.audioPlayer.play('clear-line');
+    if (clearedRows < 4) {
+      this.audioPlayer.play('clear-line');
+    } else {
+      this.audioPlayer.play('clear-tetris');
+    }
   }
 
   if (this.board.isObstructed()) {
