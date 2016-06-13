@@ -23,7 +23,7 @@ Tetris.Graphics.TetrominoQueue.prototype.draw = function (tetrominoQueue) {
   ctx.font = Tetris.Config.GRID_SIZE * 0.8 + "px Monaco";
   ctx.textAlign = "center";
   ctx.fillStyle = "#FFFFFF";
-  ctx.fillText("HELD", (this.cols * Tetris.Config.GRID_SIZE) / 2, Tetris.Config.GRID_SIZE);
+  ctx.fillText("HOLD", (this.cols * Tetris.Config.GRID_SIZE) / 2, Tetris.Config.GRID_SIZE);
   ctx.translate(0, Tetris.Config.GRID_SIZE * 6);
   ctx.fillText("NEXT", (this.cols * Tetris.Config.GRID_SIZE) / 2, Tetris.Config.GRID_SIZE);
   ctx.restore();
