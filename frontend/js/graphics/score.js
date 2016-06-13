@@ -7,9 +7,9 @@ Tetris.Graphics = Tetris.Graphics || {};
 Tetris.Graphics.Score = function (ctx) {
   this.ctx = ctx;
   this.ROW_OFFSET = 1;
-  this.COL_OFFSET = 12;
-  this.rows = 4.5;
-  this.cols = 5;
+  this.COL_OFFSET = 1;
+  this.rows = 2.5;
+  this.cols = 10;
 };
 
 Tetris.Graphics.Score.prototype.drawScore = function (score) {
@@ -24,8 +24,8 @@ Tetris.Graphics.Score.prototype.drawScore = function (score) {
   ctx.fillStyle = "#FFFFFF";
   ctx.fillText("SCORE", 25, 50);
   ctx.fillText(this._zeroFill(score.score, 8), 25, 100);
-  ctx.fillText("LEVEL", 25, 150);
-  ctx.fillText(this._zeroFill(score.level, 2), 25, 200);
+  ctx.fillText("LEVEL", 300, 50);
+  ctx.fillText(this._zeroFill(score.level, 2), 300, 100);
   ctx.restore();
 };
 

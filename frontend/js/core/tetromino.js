@@ -13,6 +13,7 @@ Tetris.Core.Tetromino = function (config) {
     col : config.position.col,
   };
   this.queueOffset = config.queueOffset;
+  this.origin = config.origin;
 };
 
 Tetris.Core.Tetromino.prototype.rotate = function () {
@@ -25,6 +26,15 @@ Tetris.Core.Tetromino.prototype.rotate = function () {
   this.shape = this.rotations[this.currentRotation];
 };
 
+Tetris.Core.Tetromino.prototype.moveToOrigin = function () {
+  this.currentRotation = 0;
+  this.shape = this.rotations[this.currentRotation];
+  this.position = {
+    row : this.origin.row,
+    col : this.origin.col,
+  };
+};
+
 Tetris.Core.Tetromino.prototype.copy = function () {
   return new Tetris.Core.Tetromino({
     currentRotation : this.currentRotation,
@@ -34,6 +44,7 @@ Tetris.Core.Tetromino.prototype.copy = function () {
       row : this.position.row,
       col : this.position.col
     },
-    queueOffset : this.queueOffset
+    queueOffset : this.queueOffset,
+    origin : this.origin,
   });
 };

@@ -14,6 +14,7 @@ Tetris.Core.Game = function () {
   this.downPressed = false;
   this.isGameOver = false;
   this.audioPlayer = null;
+  this.holdLocked = false;
 
   this._initListeners();
 };
@@ -115,11 +116,21 @@ Tetris.Core.Game.prototype.dropTetromino = function () {
   this.lockTetromino();
 };
 
+Tetris.Core.Game.prototype.holdTetronimo = function () {
+  if (this.holdLocked) {
+    return;
+  }
+
+  this.currentTetromino = this.tetrominoQueue.hold(this.currentTetromino);
+  this.holdLocked = true;
+};
+
 Tetris.Core.Game.prototype.lockTetromino = function () {
   this.board.mergeTetromino(this.currentTetromino);
   this.audioPlayer.play('lock');
   this.currentTetromino = this.tetrominoQueue.getNext();
-  
+  this.holdLocked = false;
+
   var clearedRows = this.board.clearRows();
   if (clearedRows > 0) {
     this.score.addLines(clearedRows);

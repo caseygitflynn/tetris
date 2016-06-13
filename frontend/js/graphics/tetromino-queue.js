@@ -6,9 +6,9 @@ Tetris.Graphics = Tetris.Graphics || {};
 
 Tetris.Graphics.TetrominoQueue = function (ctx) {
   this.ctx = ctx;
-  this.ROW_OFFSET = 7;
+  this.ROW_OFFSET = 4;
   this.COL_OFFSET = 12;
-  this.rows = 14;
+  this.rows = 20;
   this.cols = 5;
   this.colors = ["#000000", "#CC66CC", "#66CCCC", "#DDAA00", "#66CC66", "#CC6666", "#6666CC", "#CCCC66"];
 };
@@ -23,10 +23,13 @@ Tetris.Graphics.TetrominoQueue.prototype.draw = function (tetrominoQueue) {
   ctx.font = Tetris.Config.GRID_SIZE * 0.8 + "px Monaco";
   ctx.textAlign = "center";
   ctx.fillStyle = "#FFFFFF";
+  ctx.fillText("HELD", (this.cols * Tetris.Config.GRID_SIZE) / 2, Tetris.Config.GRID_SIZE);
+  ctx.translate(0, Tetris.Config.GRID_SIZE * 6);
   ctx.fillText("NEXT", (this.cols * Tetris.Config.GRID_SIZE) / 2, Tetris.Config.GRID_SIZE);
   ctx.restore();
 
   this._drawQueue(tetrominoQueue);
+  this._drawHeld(tetrominoQueue);
 };
 
 Tetris.Graphics.TetrominoQueue.prototype._drawQueue = function (tetrominoQueue) {
@@ -35,7 +38,19 @@ Tetris.Graphics.TetrominoQueue.prototype._drawQueue = function (tetrominoQueue) 
   ctx.save();
   ctx.translate(this.COL_OFFSET * Tetris.Config.GRID_SIZE, this.ROW_OFFSET * Tetris.Config.GRID_SIZE);
   for (var i = 0; i < 3; i = i + 1) {
-    this._drawTetromino(tetrominoQueue.view(i), 1.5 + (i * 4), -2.5);
+    this._drawTetromino(tetrominoQueue.view(i), 7.5 + (i * 4), -2.5);
+  }
+  ctx.restore();
+};
+
+Tetris.Graphics.TetrominoQueue.prototype._drawHeld = function (tetrominoQueue) {
+  var ctx = this.ctx;
+
+  ctx.save();
+  ctx.translate(this.COL_OFFSET * Tetris.Config.GRID_SIZE, this.ROW_OFFSET * Tetris.Config.GRID_SIZE);
+  var heldTetronimo = tetrominoQueue.viewHeld();
+  if (heldTetronimo) {
+    this._drawTetromino(heldTetronimo, 1.5, -2.5);
   }
   ctx.restore();
 };

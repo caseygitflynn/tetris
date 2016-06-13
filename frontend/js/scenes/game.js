@@ -119,6 +119,9 @@ Tetris.Scene.Game.prototype._initListeners = function () {
       case Tetris.Config.KEYS.DROP :
         self.game.dropTetromino();
         break;
+      case Tetris.Config.KEYS.HOLD :
+        self.game.holdTetronimo();
+        break;
     }
   };
 

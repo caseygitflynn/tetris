@@ -6,7 +6,7 @@ Tetris.Graphics = Tetris.Graphics || {};
 
 Tetris.Graphics.Board = function (ctx, spaceSize) {
   this.ctx = ctx;
-  this.ROW_OFFSET = -1;
+  this.ROW_OFFSET = 2;
   this.COL_OFFSET = 1;
   this.rows = Tetris.Config.GRID_ROWS;
   this.cols = Tetris.Config.GRID_COLS;
