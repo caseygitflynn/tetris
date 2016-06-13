@@ -57,11 +57,10 @@ Tetris.Audio.Player.prototype.pauseBackgroundMusic = function () {
 
 Tetris.Audio.Player.prototype.stopBackgroundMusic = function () {
   if (this.backgroundMusic) {
-    if (this.backgroundMusic.paused) {
-      return;
-    } else {
+    if (!this.backgroundMusic.paused) {
       this.backgroundMusic.pause();
     }
+    this.backgroundMusic.currentTime = 0;
   }
 };
 

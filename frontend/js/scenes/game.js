@@ -93,6 +93,7 @@ Tetris.Scene.Game.prototype._initListeners = function () {
         self.game = new Tetris.Core.Game(0);
         self.game.audioPlayer = self.audioPlayer;
         self.paused = false;
+        self.audioPlayer.playBackgroundMusic();
       } else {
         self.togglePause();
       }
