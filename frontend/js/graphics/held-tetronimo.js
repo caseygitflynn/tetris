@@ -4,16 +4,16 @@ var Tetris = Tetris || {};
 
 Tetris.Graphics = Tetris.Graphics || {};
 
-Tetris.Graphics.TetrominoQueue = function (ctx) {
+Tetris.Graphics.HeldTetronimo = function (ctx) {
   this.ctx = ctx;
   this.ROW_OFFSET = 1;
-  this.COL_OFFSET = 18;
-  this.rows = 20;
+  this.COL_OFFSET = 1;
+  this.rows = 6;
   this.cols = 5;
   this.colors = ["#000000", "#CC66CC", "#66CCCC", "#DDAA00", "#66CC66", "#CC6666", "#6666CC", "#CCCC66"];
 };
 
-Tetris.Graphics.TetrominoQueue.prototype.draw = function (tetrominoQueue) {
+Tetris.Graphics.HeldTetronimo.prototype.draw = function (tetrominoQueue) {
   var ctx = this.ctx;
 
   this._clear();
@@ -23,24 +23,25 @@ Tetris.Graphics.TetrominoQueue.prototype.draw = function (tetrominoQueue) {
   ctx.font = Tetris.Config.GRID_SIZE * 0.8 + "px Monaco";
   ctx.textAlign = "center";
   ctx.fillStyle = "#FFFFFF";
-  ctx.fillText("NEXT", (this.cols * Tetris.Config.GRID_SIZE) / 2, Tetris.Config.GRID_SIZE);
+  ctx.fillText("HOLD", (this.cols * Tetris.Config.GRID_SIZE) / 2, Tetris.Config.GRID_SIZE);
   ctx.restore();
 
-  this._drawQueue(tetrominoQueue);
+  this._drawHeld(tetrominoQueue);
 };
 
-Tetris.Graphics.TetrominoQueue.prototype._drawQueue = function (tetrominoQueue) {
+Tetris.Graphics.HeldTetronimo.prototype._drawHeld = function (tetrominoQueue) {
   var ctx = this.ctx;
 
   ctx.save();
   ctx.translate(this.COL_OFFSET * Tetris.Config.GRID_SIZE, this.ROW_OFFSET * Tetris.Config.GRID_SIZE);
-  for (var i = 0; i < 4; i = i + 1) {
-    this._drawTetromino(tetrominoQueue.view(i), 1.5 + (i * 4.25), -2.5);
+  var heldTetronimo = tetrominoQueue.viewHeld();
+  if (heldTetronimo) {
+    this._drawTetromino(heldTetronimo, 1.5, -2.5);
   }
   ctx.restore();
 };
 
-Tetris.Graphics.TetrominoQueue.prototype._clear = function () {
+Tetris.Graphics.HeldTetronimo.prototype._clear = function () {
   var ctx = this.ctx;
 
   ctx.save();
@@ -50,7 +51,7 @@ Tetris.Graphics.TetrominoQueue.prototype._clear = function () {
   ctx.restore();
 };
 
-Tetris.Graphics.TetrominoQueue.prototype._drawTetromino = function (tetromino, row_offset, col_offset) {
+Tetris.Graphics.HeldTetronimo.prototype._drawTetromino = function (tetromino, row_offset, col_offset) {
   var ctx = this.ctx;
 
   ctx.save();
@@ -66,7 +67,7 @@ Tetris.Graphics.TetrominoQueue.prototype._drawTetromino = function (tetromino, r
   ctx.restore();
 };
 
-Tetris.Graphics.TetrominoQueue.prototype._drawGridSquare = function (row, col, color) {
+Tetris.Graphics.HeldTetronimo.prototype._drawGridSquare = function (row, col, color) {
   var ctx = this.ctx;
 
   ctx.save();

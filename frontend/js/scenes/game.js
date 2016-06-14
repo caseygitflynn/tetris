@@ -10,6 +10,7 @@ Tetris.Scene.Game = function (canvas) {
   this.boardUI = new Tetris.Graphics.Board(this.ctx, 50);
   this.scoreUI = new Tetris.Graphics.Score(this.ctx);
   this.tetrominoQueueUI = new Tetris.Graphics.TetrominoQueue(this.ctx);
+  this.heldTetronimoUI = new Tetris.Graphics.HeldTetronimo(this.ctx);
   this.input = new Tetris.Input.Keypad();
   this.game = new Tetris.Core.Game(0);
   this.paused = false;
@@ -53,6 +54,7 @@ Tetris.Scene.Game.prototype.draw = function () {
     this.boardUI.drawPausedOverlay();
     this.scoreUI.drawScore(this.game.score);
     this.tetrominoQueueUI.draw(this.game.tetrominoQueue);
+    this.heldTetronimoUI.draw(this.game.tetrominoQueue);
   } else if (this.game.isGameOver) {
     this.boardUI.drawGameOverOverlay();
   } else {
@@ -61,6 +63,7 @@ Tetris.Scene.Game.prototype.draw = function () {
     this.boardUI.drawTetromino(this.game.currentTetromino);
     this.scoreUI.drawScore(this.game.score);
     this.tetrominoQueueUI.draw(this.game.tetrominoQueue);
+    this.heldTetronimoUI.draw(this.game.tetrominoQueue);
   }
 };
 

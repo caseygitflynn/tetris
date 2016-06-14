@@ -6,10 +6,10 @@ Tetris.Graphics = Tetris.Graphics || {};
 
 Tetris.Graphics.Score = function (ctx) {
   this.ctx = ctx;
-  this.ROW_OFFSET = 1;
+  this.ROW_OFFSET = 8;
   this.COL_OFFSET = 1;
-  this.rows = 2.5;
-  this.cols = 10;
+  this.rows = 7.5;
+  this.cols = 5;
 };
 
 Tetris.Graphics.Score.prototype.drawScore = function (score) {
@@ -24,8 +24,10 @@ Tetris.Graphics.Score.prototype.drawScore = function (score) {
   ctx.fillStyle = "#FFFFFF";
   ctx.fillText("SCORE", 25, 50);
   ctx.fillText(this._zeroFill(score.score, 8), 25, 100);
-  ctx.fillText("LEVEL", 300, 50);
-  ctx.fillText(this._zeroFill(score.level, 2), 300, 100);
+  ctx.fillText("LEVEL", 25, 175);
+  ctx.fillText(this._zeroFill(score.level, 2), 25, 225);
+  ctx.fillText("GOAL", 25, 300);
+  ctx.fillText(this._zeroFill(score.lineGoal, 2), 25, 350);
   ctx.restore();
 };
 

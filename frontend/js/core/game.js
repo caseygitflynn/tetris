@@ -157,19 +157,3 @@ Tetris.Core.Game.prototype.getGhostTetromino = function () {
 
   return ghostTetromino;
 };
-
-Tetris.Core.Game.prototype._sizeCanvas = function () {
-  var winWidth = window.innerWidth;
-  var winHeight = window.innerHeight;
-  var ratio = this.GRID_COLS / this.GRID_ROWS;
-
-  if (winWidth / winHeight < ratio) {
-    this.spaceSize = winWidth / Tetris.Config.GRID_COLS;
-  } else {
-    this.spaceSize = winHeight / Tetris.Config.GRID_ROWS;
-  }
-
-  this.canvas.width = Tetris.Config.GRID_COLS * this.spaceSize;
-  this.canvas.height = Tetris.Config.GRID_ROWS * this.spaceSize;
-  this.ui.spaceSize = this.spaceSize;
-};

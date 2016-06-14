@@ -6,8 +6,8 @@ Tetris.Graphics = Tetris.Graphics || {};
 
 Tetris.Graphics.Board = function (ctx, spaceSize) {
   this.ctx = ctx;
-  this.ROW_OFFSET = 2;
-  this.COL_OFFSET = 1;
+  this.ROW_OFFSET = -1;
+  this.COL_OFFSET = 7;
   this.rows = Tetris.Config.GRID_ROWS;
   this.cols = Tetris.Config.GRID_COLS;
   this.colors = ["black", "#CC66CC", "#66CCCC", "#DDAA00", "#66CC66", "#CC6666", "#6666CC", "#CCCC66"];
