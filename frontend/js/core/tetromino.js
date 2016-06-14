@@ -12,7 +12,7 @@ Tetris.Core.Tetromino = function (config) {
     row : config.position.row,
     col : config.position.col,
   };
-  this.queueOffset = config.queueOffset;
+  this.centeringOffset = config.centeringOffset;
   this.origin = config.origin;
 };
 
@@ -44,7 +44,7 @@ Tetris.Core.Tetromino.prototype.copy = function () {
       row : this.position.row,
       col : this.position.col
     },
-    queueOffset : this.queueOffset,
+    centeringOffset : this.centeringOffset,
     origin : this.origin,
   });
 };

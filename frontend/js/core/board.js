@@ -7,7 +7,13 @@ Tetris.Core = Tetris.Core || {};
 Tetris.Core.Board = function () {
   this.ROWS = Tetris.Config.GRID_ROWS;
   this.COLS = Tetris.Config.GRID_COLS;
-  this.grid = this.grid = this._makeEmptyGrid();
+  this.grid = [];
+
+  if (Tetris.Config.GARBAGE_GRID_START) {
+    this._makeGarbageGrid();
+  } else {
+    this._makeEmptyGrid();
+  }
 };
 
 Tetris.Core.Board.prototype.willCollide = function (tetromino, row_delta, col_delta) {
@@ -51,16 +57,37 @@ Tetris.Core.Board.prototype.mergeTetromino = function (tetromino) {
 };
 
 Tetris.Core.Board.prototype._makeEmptyGrid = function () {
-  var grid = [];
+  this.grid = [];
 
   for (var row = 0; row < this.ROWS; row = row + 1) {
-    grid[row] = [];
+    this.grid[row] = [];
     for (var col = 0; col < this.COLS; col = col + 1) {
-      grid[row][col] = 0;
+      this.grid[row][col] = 0;
     }
   }
 
-  return grid;
+};
+
+Tetris.Core.Board.prototype._makeGarbageGrid = function () {
+  this.grid = [];
+
+  for (var row = 0; row < this.ROWS; row = row + 1) {
+    this.grid[row] = [];
+    for (var col = 0; col < this.COLS; col = col + 1) {
+      this.grid[row][col] = this._weightedRandomSquare(row, col);
+    }
+  }
+
+};
+
+Tetris.Core.Board.prototype._weightedRandomSquare = function (row, col) {
+  var rand = Math.random();
+
+  if (row > Tetris.Config.GARBAGE_GRID_START_ROW && rand <= Tetris.Config.GARBAGE_GRID_WEIGHT && !this._isFilled(row)) {
+    return Math.floor(Math.random() * (Tetris.Config.COLORS.length -1)) + 1;
+  }
+
+  return 0;
 };
 
 Tetris.Core.Board.prototype._isOpen = function (row, col) {

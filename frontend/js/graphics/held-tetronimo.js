@@ -10,7 +10,6 @@ Tetris.Graphics.HeldTetronimo = function (ctx) {
   this.COL_OFFSET = 1;
   this.rows = 6;
   this.cols = 5;
-  this.colors = ["#000000", "#CC66CC", "#66CCCC", "#DDAA00", "#66CC66", "#CC6666", "#6666CC", "#CCCC66"];
 };
 
 Tetris.Graphics.HeldTetronimo.prototype.draw = function (tetrominoQueue) {
@@ -56,26 +55,7 @@ Tetris.Graphics.HeldTetronimo.prototype._drawTetromino = function (tetromino, ro
 
   ctx.save();
 
-  ctx.translate((col_offset + tetromino.queueOffset.col) * Tetris.Config.GRID_SIZE, (row_offset + tetromino.queueOffset.row) * Tetris.Config.GRID_SIZE);
-  for (var row = 0; row < tetromino.shape.length; row++) {
-    for (var col = 0; col < tetromino.shape[row].length; col++) {
-      if (tetromino.shape[row][col] !== 0) {
-        this._drawGridSquare(row + tetromino.position.row, col + tetromino.position.col, tetromino.shape[row][col]);
-      }
-    }
-  }
-  ctx.restore();
-};
-
-Tetris.Graphics.HeldTetronimo.prototype._drawGridSquare = function (row, col, color) {
-  var ctx = this.ctx;
-
-  ctx.save();
-  ctx.translate(col * Tetris.Config.GRID_SIZE, row * Tetris.Config.GRID_SIZE);
-  ctx.fillStyle = this.colors[color];
-  ctx.strokeStyle="#000000";
-  ctx.lineWidth = 3;
-  ctx.strokeRect(3, 3, Tetris.Config.GRID_SIZE - 6, Tetris.Config.GRID_SIZE - 6);
-  ctx.fillRect(3, 3, Tetris.Config.GRID_SIZE - 6, Tetris.Config.GRID_SIZE - 6);
+  ctx.translate((col_offset + tetromino.centeringOffset.col) * Tetris.Config.GRID_SIZE, (row_offset + tetromino.centeringOffset.row) * Tetris.Config.GRID_SIZE);
+  Tetris.Graphics.drawTetronimo(ctx, tetromino);
   ctx.restore();
 };

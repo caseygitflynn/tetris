@@ -10,7 +10,6 @@ Tetris.Graphics.Board = function (ctx, spaceSize) {
   this.COL_OFFSET = 7;
   this.rows = Tetris.Config.GRID_ROWS;
   this.cols = Tetris.Config.GRID_COLS;
-  this.colors = ["black", "#CC66CC", "#66CCCC", "#DDAA00", "#66CC66", "#CC6666", "#6666CC", "#CCCC66"];
 };
 
 Tetris.Graphics.Board.prototype.drawLanded = function (board) {
@@ -20,6 +19,7 @@ Tetris.Graphics.Board.prototype.drawLanded = function (board) {
 
     for (var row = 0; row < self.rows; row = row + 1) {
       for (var col = 0; col < self.cols; col = col + 1) {
+        var color = board.grid[row][col];
         self._drawGridSquare(row, col, board.grid[row][col]);
       }
     }
@@ -108,29 +108,11 @@ Tetris.Graphics.Board.prototype._clear = function () {
 };
 
 Tetris.Graphics.Board.prototype._drawGridSquare = function (row, col, color) {
-  var ctx = this.ctx;
-
   if (row < 2) {
     return;
   }
 
-  ctx.save();
-  ctx.translate(col * Tetris.Config.GRID_SIZE, row * Tetris.Config.GRID_SIZE);
-  if (color == 0) {
-    if (((row % 2 == 0) && (col % 2 == 0)) || ((row % 2 != 0) && (col % 2 != 0))) {
-      ctx.fillStyle = "#000000";
-    } else {
-      ctx.fillStyle = "#222222";
-    }
-    ctx.fillRect(0, 0, Tetris.Config.GRID_SIZE, Tetris.Config.GRID_SIZE);
-  } else {
-    ctx.fillStyle = this.colors[color];
-    ctx.strokeStyle="#000000";
-    ctx.lineWidth = 3;
-    ctx.strokeRect(3, 3, Tetris.Config.GRID_SIZE - 6, Tetris.Config.GRID_SIZE - 6);
-    ctx.fillRect(3, 3, Tetris.Config.GRID_SIZE - 6, Tetris.Config.GRID_SIZE - 6);
-  }
-  ctx.restore();
+  Tetris.Graphics.drawGridSquare(this.ctx, row, col, color);
 };
 
 Tetris.Graphics.Board.prototype._drawGhostSquare = function (row, col) {

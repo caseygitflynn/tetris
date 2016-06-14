@@ -5,16 +5,6 @@ var Tetris = Tetris || {};
 Tetris.Core = Tetris.Core || {};
 
 Tetris.Core.TetrominoRandomizer = function () {
-  this.tetrominos = [
-    Tetris.Config.TETRONIMOS.O,
-    Tetris.Config.TETRONIMOS.J,
-    Tetris.Config.TETRONIMOS.L,
-    Tetris.Config.TETRONIMOS.S,
-    Tetris.Config.TETRONIMOS.Z,
-    Tetris.Config.TETRONIMOS.I,
-    Tetris.Config.TETRONIMOS.T,
-  ];
-
   this.bag = [];
 };
 
@@ -32,7 +22,7 @@ Tetris.Core.TetrominoRandomizer.prototype.isEmpty = function () {
 };
 
 Tetris.Core.TetrominoRandomizer.prototype.fillBag = function () {
-  this.bag = this.tetrominos.slice(0);
+  this.bag = Tetris.Config.TETRONIMOS.slice(0);
   this.shuffle(this.bag);
 };
 
