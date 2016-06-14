@@ -37,6 +37,7 @@ Tetris.Scene.Game.prototype.update = function (timestamp) {
   window.requestAnimationFrame(this.update.bind(this));
 
   if (!this.paused && !this.game.isGameOver) {
+    this.input.frameUpdate();
     this.game.update();
   }
 

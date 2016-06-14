@@ -13,3 +13,6 @@ Tetris.Config.KEYS = {
   ENTER  : 13,
   HOLD   : 16,
 };
+
+Tetris.Config.DAS_INITAL_FRAMES = 16;
+Tetris.Config.DAS_REPEAT_FRAMES = 6;
