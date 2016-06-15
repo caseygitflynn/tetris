@@ -12,6 +12,15 @@ Tetris.Graphics.Board = function (ctx, spaceSize) {
   this.cols = Tetris.Config.GRID_COLS;
 };
 
+Tetris.Graphics.Board.prototype.drawBackground = function () {
+  var ctx = this.ctx;
+
+  ctx.save();
+  ctx.fillStyle = "#CCCCCC";
+  ctx.fillRect(0, 0, Tetris.Config.GAME_WIDTH, Tetris.Config.GAME_HEIGHT);
+  ctx.restore();
+};
+
 Tetris.Graphics.Board.prototype.drawLanded = function (board) {
   var self = this;
   this._moveToOffset(function () {

@@ -4,22 +4,17 @@ var Tetris = Tetris || {};
 
 Tetris.Scene = Tetris.Scene || {};
 
-Tetris.Scene.Game = function (canvas) {
-  this.canvas = canvas;
-  this.ctx = this.canvas.getContext('2d');
+Tetris.Scene.Game = function (controller, ctx) {
+  this.controller = controller;
+  this.ctx = ctx;
   this.boardUI = new Tetris.Graphics.Board(this.ctx, 50);
   this.scoreUI = new Tetris.Graphics.Score(this.ctx);
   this.tetrominoQueueUI = new Tetris.Graphics.TetrominoQueue(this.ctx);
   this.heldTetronimoUI = new Tetris.Graphics.HeldTetronimo(this.ctx);
-  this.input = new Tetris.Input.Keypad();
   this.game = new Tetris.Core.Game(0);
   this.paused = false;
   this.audioPlayer = new Tetris.Audio.Player();
   this.game.audioPlayer = this.audioPlayer;
-
-  this._sizeCanvas();
-  this._initListeners();
-  this._loadAudio();
 };
 
 Tetris.Scene.Game.prototype.togglePause = function () {
@@ -35,10 +30,7 @@ Tetris.Scene.Game.prototype.togglePause = function () {
 };
 
 Tetris.Scene.Game.prototype.update = function (timestamp) {
-  window.requestAnimationFrame(this.update.bind(this));
-
   if (!this.paused && !this.game.isGameOver) {
-    this.input.frameUpdate();
     this.game.update();
   }
 
@@ -50,24 +42,24 @@ Tetris.Scene.Game.prototype.update = function (timestamp) {
 };
 
 Tetris.Scene.Game.prototype.draw = function () {
+  this.boardUI.drawBackground();
+
   if (this.paused) {
     this.boardUI.drawPausedOverlay();
-    this.scoreUI.drawScore(this.game.score);
-    this.tetrominoQueueUI.draw(this.game.tetrominoQueue);
-    this.heldTetronimoUI.draw(this.game.tetrominoQueue);
   } else if (this.game.isGameOver) {
     this.boardUI.drawGameOverOverlay();
   } else {
     this.boardUI.drawLanded(this.game.board);
     this.boardUI.drawGhostTetromino(this.game.getGhostTetromino());
     this.boardUI.drawTetromino(this.game.currentTetromino);
-    this.scoreUI.drawScore(this.game.score);
-    this.tetrominoQueueUI.draw(this.game.tetrominoQueue);
-    this.heldTetronimoUI.draw(this.game.tetrominoQueue);
   }
+
+  this.scoreUI.drawScore(this.game.score);
+  this.tetrominoQueueUI.draw(this.game.tetrominoQueue);
+  this.heldTetronimoUI.draw(this.game.tetrominoQueue);
 };
 
-Tetris.Scene.Game.prototype._loadAudio = function () {
+Tetris.Scene.Game.prototype.load = function () {
   var audioLoader = new Tetris.Audio.Loader([
     { src : '/audio/music.mp3', name : 'tetris'},
     { src : '/audio/game-over.mp3', name : 'game-over'},
@@ -84,78 +76,62 @@ Tetris.Scene.Game.prototype._loadAudio = function () {
   audioLoader.onLoad = function(audioElements) {
     self.audioPlayer.addAudioElements(audioElements);
     self.audioPlayer.playBackgroundMusic('tetris');
-    self.update(0);
+    self.onLoad();
   };
 };
 
-Tetris.Scene.Game.prototype._initListeners = function () {
-  var self = this;
+Tetris.Scene.Game.prototype.onKeyDown = function (key) {
 
-  window.addEventListener('resize', this._sizeCanvas.bind(this));
+  if (key == Tetris.Config.KEYS.EXIT) {
+    this.audioPlayer.stopBackgroundMusic();
+    this.controller.setScene(new Tetris.Scene.Title(this.controller, this.ctx));
+  }
 
-  this.input.keyDown = function (key) {
-    if (key == Tetris.Config.KEYS.ENTER) {
-      if (self.game.isGameOver) {
-        self.game = new Tetris.Core.Game(0);
-        self.game.audioPlayer = self.audioPlayer;
-        self.paused = false;
-        self.audioPlayer.playBackgroundMusic();
-      } else {
-        self.togglePause();
-      }
+  if (key == Tetris.Config.KEYS.ENTER) {
+    if (this.game.isGameOver) {
+      this.game = new Tetris.Core.Game(0);
+      this.game.audioPlayer = this.audioPlayer;
+      this.paused = false;
+      this.audioPlayer.playBackgroundMusic();
+    } else {
+      this.togglePause();
     }
+  }
 
-    if (self.paused) {
-      return;
-    }
+  if (this.paused) {
+    return;
+  }
 
-    switch (key) {
-      case Tetris.Config.KEYS.LEFT :
-        self.game.moveLeft();
-        break;
-      case Tetris.Config.KEYS.RIGHT :
-        self.game.moveRight();
-        break;
-      case Tetris.Config.KEYS.ROTATE :
-        self.game.rotateTetromino();
-        break;
-      case Tetris.Config.KEYS.DOWN :
-        self.game.downPressed = true;
-        break;
-      case Tetris.Config.KEYS.DROP :
-        self.game.dropTetromino();
-        break;
-      case Tetris.Config.KEYS.HOLD :
-        self.game.holdTetronimo();
-        break;
-    }
-  };
+  switch (key) {
+    case Tetris.Config.KEYS.LEFT :
+      this.game.moveLeft();
+      break;
+    case Tetris.Config.KEYS.RIGHT :
+      this.game.moveRight();
+      break;
+    case Tetris.Config.KEYS.ROTATE :
+      this.game.rotateTetromino();
+      break;
+    case Tetris.Config.KEYS.DOWN :
+      this.game.downPressed = true;
+      break;
+    case Tetris.Config.KEYS.DROP :
+      this.game.dropTetromino();
+      break;
+    case Tetris.Config.KEYS.HOLD :
+      this.game.holdTetronimo();
+      break;
+  }
 
-  this.input.keyUp = function (key) {
-    if (self.paused) {
-      return;
-    }
-
-    switch (key) {
-      case Tetris.Config.KEYS.DOWN :
-        self.game.downPressed = false;
-    }
-  };
 };
 
-Tetris.Scene.Game.prototype._sizeCanvas = function () {
-  this.canvas.width = Tetris.Config.GAME_WIDTH;
-  this.canvas.height = Tetris.Config.GAME_HEIGHT;
+Tetris.Scene.Game.prototype.onKeyUp = function (key) {
+  if (this.paused) {
+    return;
+  }
 
-  var winWidth = window.innerWidth;
-  var winHeight = window.innerHeight;
-  var ratio = Tetris.Config.GAME_WIDTH / Tetris.Config.GAME_HEIGHT;
-
-  if (winWidth / winHeight < ratio) {
-    this.canvas.style.width = winWidth + "px";
-    this.canvas.style.height = "auto";
-  } else {
-    this.canvas.style.width = "auto";
-    this.canvas.style.height = winHeight + "px";
+  switch (key) {
+    case Tetris.Config.KEYS.DOWN :
+      this.game.downPressed = false;
   }
 };

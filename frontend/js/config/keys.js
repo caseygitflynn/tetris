@@ -12,6 +12,7 @@ Tetris.Config.KEYS = {
   DROP   : 32,
   ENTER  : 13,
   HOLD   : 16,
+  EXIT   : 27,
 };
 
 Tetris.Config.DAS_INITAL_FRAMES = 16;
