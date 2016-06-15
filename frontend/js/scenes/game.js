@@ -15,6 +15,7 @@ Tetris.Scene.Game = function (controller, ctx) {
   this.paused = false;
   this.audioPlayer = new Tetris.Audio.Player();
   this.game.audioPlayer = this.audioPlayer;
+  Tetris.Config.DAS_ENABLED = true;
 };
 
 Tetris.Scene.Game.prototype.togglePause = function () {

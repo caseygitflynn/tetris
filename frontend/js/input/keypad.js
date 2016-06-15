@@ -14,6 +14,10 @@ Tetris.Input.Keypad = function () {
 };
 
 Tetris.Input.Keypad.prototype.frameUpdate = function (frames) {
+  if (!Tetris.Config.DAS_ENABLED) {
+    return;
+  }
+
   this.dasFrames -= frames || 1;
 
   if (this.dasFrames <= 0 && this.dasCallback) {

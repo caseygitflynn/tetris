@@ -14,6 +14,7 @@ Tetris.Scene.Title = function (controller, ctx) {
     startLevel : Tetris.Config.START_LEVEL,
     garbageGridStart : Tetris.Config.GARBAGE_GRID_START,
   };
+  Tetris.Config.DAS_ENABLED = false;
 };
 
 Tetris.Scene.Title.prototype.update = function (timestamp) {

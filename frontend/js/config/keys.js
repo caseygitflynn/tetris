@@ -15,5 +15,6 @@ Tetris.Config.KEYS = {
   EXIT   : 27,
 };
 
+Tetris.Config.DAS_ENABLED = false;
 Tetris.Config.DAS_INITAL_FRAMES = 16;
 Tetris.Config.DAS_REPEAT_FRAMES = 6;
