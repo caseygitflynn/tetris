@@ -6,7 +6,7 @@ Tetris.Graphics = Tetris.Graphics || {};
 
 Tetris.Graphics.Score = function (ctx) {
   this.ctx = ctx;
-  this.ROW_OFFSET = 8;
+  this.ROW_OFFSET = 6;
   this.COL_OFFSET = 1;
   this.rows = 7.5;
   this.cols = 5;

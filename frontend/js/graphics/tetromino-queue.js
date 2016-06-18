@@ -33,8 +33,8 @@ Tetris.Graphics.TetrominoQueue.prototype._drawQueue = function (tetrominoQueue) 
 
   ctx.save();
   ctx.translate(this.COL_OFFSET * Tetris.Config.GRID_SIZE, this.ROW_OFFSET * Tetris.Config.GRID_SIZE);
-  for (var i = 0; i < 4; i = i + 1) {
-    this._drawTetromino(tetrominoQueue.view(i), 1.5 + (i * 4.25), -2.5);
+  for (var i = 0; i < 5; i = i + 1) {
+    this._drawTetromino(tetrominoQueue.view(i), 1.5 + (i * 4), -2.5);
   }
   ctx.restore();
 };

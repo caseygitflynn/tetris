@@ -8,7 +8,7 @@ Tetris.Graphics.HeldTetronimo = function (ctx) {
   this.ctx = ctx;
   this.ROW_OFFSET = 1;
   this.COL_OFFSET = 1;
-  this.rows = 6;
+  this.rows = 4;
   this.cols = 5;
 };
 
