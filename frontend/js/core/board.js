@@ -101,21 +101,25 @@ Tetris.Core.Board.prototype._isOpen = function (row, col) {
   return this.grid[row][col] === 0;
 };
 
-Tetris.Core.Board.prototype.clearRows = function () {
-  var clearedRows = 0;
+Tetris.Core.Board.prototype.clearedRows = function () {
+  var clearedRows = [];
   for (var row = 0; row < this.grid.length; row++) {
     if (this._isFilled(row)) {
-      this._clearRow(row);
-      clearedRows++;
+      clearedRows.push(row);
+      // this._clearRow(row);
+      // clearedRows++;
     }
   }
 
   return clearedRows;
 };
 
-Tetris.Core.Board.prototype._clearRow = function (row) {
-  this.grid.splice(row, 1);
-  this._prependEmptyRow();
+Tetris.Core.Board.prototype.clearRows = function (rows) {
+  for (var i = 0; i < rows.length; i++) {
+    var row = rows[i];
+    this.grid.splice(row, 1);
+    this._prependEmptyRow();
+  }
 };
 
 Tetris.Core.Board.prototype._isFilled = function (row) {

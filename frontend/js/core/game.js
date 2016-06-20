@@ -9,6 +9,7 @@ Tetris.Core.Game = function () {
   this.score = new Tetris.Core.Score();
   this.gravity = new Tetris.Core.Gravity(this.score.level);
   this.lockDelay = new Tetris.Core.LockDelay();
+  this.lineClearAnimator = new Tetris.Core.LineClearAnimation();
   this.tetrominoQueue = new Tetris.Core.TetrominoQueue();
   this.currentTetromino = this.tetrominoQueue.getNext();
   this.downPressed = false;
@@ -29,6 +30,13 @@ Tetris.Core.Game.prototype._initListeners = function () {
 };
 
 Tetris.Core.Game.prototype.update = function (timestamp) {
+  
+  if (this.lineClearAnimator.isAnimating()) {
+    this.lineClearAnimator.onFrameUpdate();
+    this.lineClearAnimator.update();
+    return;
+  }
+
   this.gravity.frameUpdate();
   this.lockDelay.frameUpdate();
 
@@ -132,10 +140,19 @@ Tetris.Core.Game.prototype.lockTetromino = function () {
   this.currentTetromino = this.tetrominoQueue.getNext();
   this.holdLocked = false;
 
-  var clearedRows = this.board.clearRows();
-  if (clearedRows > 0) {
-    this.score.addLines(clearedRows);
-    if (clearedRows < 4) {
+  var clearedRows = this.board.clearedRows();
+  if (clearedRows.length > 0) {
+    this.lineClearAnimator.clearRows(this.board.grid, clearedRows);
+    
+    var self = this;
+    this.lineClearAnimator.onFinish = function () {
+      self.board.clearRows(clearedRows);
+      self.audioPlayer.play('lock');
+    };
+
+    this.score.addLines(clearedRows.length);
+
+    if (clearedRows.length < 4) {
       this.audioPlayer.play('clear-line');
     } else {
       this.audioPlayer.play('clear-tetris');
@@ -149,6 +166,10 @@ Tetris.Core.Game.prototype.lockTetromino = function () {
 };
 
 Tetris.Core.Game.prototype.getGhostTetromino = function () {
+  if (this.lineClearAnimator.isAnimating()) {
+    return null;
+  }
+
   var ghostTetromino = this.currentTetromino.copy();
 
   while(!this.board.willCollide(ghostTetromino, 1, 0)) {

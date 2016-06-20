@@ -51,6 +51,10 @@ Tetris.Graphics.Board.prototype.drawTetromino = function (tetromino) {
 };
 
 Tetris.Graphics.Board.prototype.drawGhostTetromino = function (tetromino) {
+  if (!tetromino) {
+    return;
+  }
+  
   var grid = tetromino.shape;
   
   var self = this;
