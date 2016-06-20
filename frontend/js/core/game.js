@@ -9,7 +9,7 @@ Tetris.Core.Game = function () {
   this.score = new Tetris.Core.Score();
   this.gravity = new Tetris.Core.Gravity(this.score.level);
   this.lockDelay = new Tetris.Core.LockDelay();
-  this.lineClearAnimator = new Tetris.Core.LineClearAnimation();
+  this.lineClearer = new Tetris.Core.LineClearer(this.board.grid);
   this.tetrominoQueue = new Tetris.Core.TetrominoQueue();
   this.currentTetromino = this.tetrominoQueue.getNext();
   this.downPressed = false;
@@ -31,9 +31,9 @@ Tetris.Core.Game.prototype._initListeners = function () {
 
 Tetris.Core.Game.prototype.update = function (timestamp) {
   
-  if (this.lineClearAnimator.isAnimating()) {
-    this.lineClearAnimator.onFrameUpdate();
-    this.lineClearAnimator.update();
+  if (this.lineClearer.isAnimating()) {
+    this.lineClearer.onFrameUpdate();
+    this.lineClearer.update();
     return;
   }
 
@@ -142,10 +142,10 @@ Tetris.Core.Game.prototype.lockTetromino = function () {
 
   var clearedRows = this.board.clearedRows();
   if (clearedRows.length > 0) {
-    this.lineClearAnimator.clearRows(this.board.grid, clearedRows);
+    this.lineClearer.clearRows(clearedRows);
     
     var self = this;
-    this.lineClearAnimator.onFinish = function () {
+    this.lineClearer.onFinish = function () {
       self.board.clearRows(clearedRows);
       self.audioPlayer.play('lock');
     };
@@ -166,7 +166,7 @@ Tetris.Core.Game.prototype.lockTetromino = function () {
 };
 
 Tetris.Core.Game.prototype.getGhostTetromino = function () {
-  if (this.lineClearAnimator.isAnimating()) {
+  if (this.lineClearer.isAnimating()) {
     return null;
   }
 
