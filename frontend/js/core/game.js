@@ -150,11 +150,14 @@ Tetris.Core.Game.prototype.lockTetromino = function () {
     } else {
       this.audioPlayer.play('clear-tetris');
     }
-    
+
     var self = this;
     this.lineClearer.onFinish = function () {
       self.audioPlayer.play('lock');
+      self.score.tallyPoints();
     };
+  } else {
+    this.score.tallyPoints();
   }
 
   if (this.board.isObstructed()) {
