@@ -140,23 +140,21 @@ Tetris.Core.Game.prototype.lockTetromino = function () {
   this.currentTetromino = this.tetrominoQueue.getNext();
   this.holdLocked = false;
 
-  var clearedRows = this.board.clearedRows();
-  if (clearedRows.length > 0) {
-    this.lineClearer.clearRows(clearedRows);
-    
-    var self = this;
-    this.lineClearer.onFinish = function () {
-      self.board.clearRows(clearedRows);
-      self.audioPlayer.play('lock');
-    };
+  var clearedRows = this.lineClearer.clearRows();
+  if (clearedRows > 0) {
 
-    this.score.addLines(clearedRows.length);
+    this.score.addLines(clearedRows);
 
-    if (clearedRows.length < 4) {
+    if (clearedRows < 4) {
       this.audioPlayer.play('clear-line');
     } else {
       this.audioPlayer.play('clear-tetris');
     }
+    
+    var self = this;
+    this.lineClearer.onFinish = function () {
+      self.audioPlayer.play('lock');
+    };
   }
 
   if (this.board.isObstructed()) {
