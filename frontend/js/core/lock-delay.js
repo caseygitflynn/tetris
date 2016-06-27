@@ -21,7 +21,7 @@ Tetris.Core.LockDelay.prototype.onShift = function () {
 
 Tetris.Core.LockDelay.prototype.onMove = function () {
   if (this.isPrelocked()) {
-    this.reset;
+    this._reset();
   }
 };
 
